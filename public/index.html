@@ -9,40 +9,145 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* UPDATED: New high-contrast theme */
         :root {
-            --background: #fefce8; --text-primary: #44403c; --text-secondary: #78716c;
-            --primary: #854d0e; --primary-hover: #713f12; --card-bg: #ffffff;
-            --border-color: #e7e5e4;
+            /* Light Mode: Cleaner, brighter "stone" and "amber" */
+            --background: #fafaf9; /* stone-50 */
+            --text-primary: #292524; /* stone-800 */
+            --text-secondary: #78716c; /* stone-500 */
+            --primary: #b45309; /* amber-700 */
+            --primary-hover: #92400e; /* amber-800 */
+            --card-bg: #ffffff; /* white */
+            --border-color: #e7e5e4; /* stone-200 */
         }
         html.dark {
-            --background: #1c1917; --text-primary: #f5f5f4; --text-secondary: #a8a29e;
-            --primary: #ca8a04; --primary-hover: #eab308; --card-bg: #292524;
-            --border-color: #57534e;
+            /* Dark Mode: Deeper darks, brighter accent, better separation */
+            --background: #0c0a09; /* stone-950 */
+            --text-primary: #e7e5e4; /* stone-200 */
+            --text-secondary: #a8a29e; /* stone-400 */
+            --primary: #eab308; /* amber-500 */
+            --primary-hover: #facc15; /* amber-400 */
+            --card-bg: #1c1917; /* stone-900 */
+            --border-color: #44403c; /* stone-700 */
         }
-        body { font-family: 'Inter', sans-serif; background-color: var(--background); color: var(--text-primary); transition: background-color 0.3s, color 0.3s; }
-        .btn-primary { background-color: var(--primary); color: white; transition: background-color 0.3s; }
-        .btn-primary:hover:not(:disabled) { background-color: var(--primary-hover); }
-        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
-        .btn-secondary { background-color: #a8a29e; color: white; transition: background-color 0.3s; }
-        .btn-secondary:hover { background-color: #78716c; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--background); 
+            color: var(--text-primary); 
+            transition: background-color 0.3s, color 0.3s; 
+        }
+        
+        /* UPDATED: Contrast fix for buttons in dark mode */
+        .btn-primary { 
+            background-color: var(--primary); 
+            color: white; /* Default for light mode */
+            transition: background-color 0.3s, color 0.3s; 
+        }
+        html.dark .btn-primary {
+            color: #1c1917; /* Dark text for dark mode's bright button */
+        }
+        html.dark .btn-primary:hover:not(:disabled) {
+            color: #292524; /* Slightly lighter dark text on hover */
+        }
+        .btn-primary:hover:not(:disabled) { 
+            background-color: var(--primary-hover); 
+        }
+        .btn-primary:disabled { 
+            opacity: 0.6; 
+            cursor: not-allowed; 
+        }
+        
+        .btn-secondary { 
+            background-color: var(--text-secondary); /* Use secondary text color for bg */
+            color: var(--background); /* Use background color for text */
+            transition: background-color 0.3s; 
+        }
+        .btn-secondary:hover { 
+            background-color: var(--text-primary); /* Use primary text color for hover */
+        }
+        
         .view-section, .form-section { display: none; }
         .view-section.active, .form-section.active { display: block; animation: fadeIn 0.5s; }
-        .tab.active { border-bottom-color: var(--primary); color: var(--primary); font-weight: 600; }
+        
+        /* UPDATED: Enhanced tab contrast */
+        .tab {
+            color: var(--text-secondary);
+            border-bottom-width: 2px;
+            border-bottom-color: transparent;
+        }
+        .tab:hover {
+             color: var(--text-primary);
+        }
+        .tab.active { 
+            border-bottom-color: var(--primary); 
+            color: var(--primary); 
+            font-weight: 600; 
+        }
+
         .spinner, .btn-spinner { animation: spin 1s ease infinite; }
         .spinner { border: 4px solid rgba(0, 0, 0, 0.1); width: 24px; height: 24px; border-radius: 50%; border-left-color: var(--primary); }
         .btn-spinner { border: 2px solid rgba(255,255,255,0.3); width: 20px; height: 20px; border-radius: 50%; border-left-color: #fff; }
+        html.dark .btn-spinner { border-left-color: #1c1917; } /* Spinner on dark mode button */
+        
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
         .product-card .wishlist-btn { opacity: 0; transition: opacity 0.3s ease; }
         .product-card:hover .wishlist-btn { opacity: 1; }
+        
         .step-indicator { display: flex; align-items: center; justify-content: center; font-weight: bold; width: 2.5rem; height: 2.5rem; border-radius: 9999px; transition: all 0.3s ease; background-color: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-secondary); }
         .step-indicator.active { background-color: var(--primary); color: white; border-color: var(--primary); }
+        html.dark .step-indicator.active { color: #1c1917; } /* Dark text on bright step */
         .step-indicator.completed { background-color: #22c55e; color: white; border-color: #22c55e; }
+        
         .card { background-color: var(--card-bg); border: 1px solid var(--border-color); }
+        .product-card { transition: all 0.3s ease; }
+        
         .text-primary { color: var(--text-primary); }
         .text-secondary { color: var(--text-secondary); }
         .border-color { border-color: var(--border-color); }
         .text-theme { color: var(--primary); }
+        
+        html { scroll-behavior: smooth; }
+        
+        /* UPDATED: Ensure forms have high contrast & modern look */
+        input, select, textarea {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem; /* Rounded forms */
+        }
+        input:focus, select:focus, textarea:focus {
+            --tw-ring-color: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary); /* More prominent focus ring */
+        }
+        /* Fix for placeholder text in dark mode */
+        ::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+        
+        /* FIX: Add styles for dropdown options */
+        option {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+        }
+
+        /* NEW: Styles for drag-and-drop */
+        .drag-over {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 15px rgba(180, 83, 9, 0.3); /* amber-700 */
+        }
+        html.dark .drag-over {
+            box-shadow: 0 0 15px rgba(234, 179, 8, 0.3); /* amber-500 */
+        }
+
+        /* NEW: Style for camera feed */
+        #camera-feed {
+            transform: scaleX(-1); /* Mirror effect */
+        }
     </style>
 </head>
 <body class="bg-stone-100 dark:bg-stone-900">
@@ -54,19 +159,34 @@
     <header id="app-header" class="bg-white dark:bg-stone-800 shadow-sm sticky top-0 z-50 hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="py-3 flex justify-between items-center">
-                <div class="text-3xl font-bold text-amber-800 dark:text-amber-500 cursor-pointer" id="logo-btn">Kala<span class="text-amber-600 dark:text-amber-400">Saarthi</span></div>
+                <!-- UPDATED: Text color now uses variables -->
+                <div class="text-3xl font-bold text-theme cursor-pointer" id="logo-btn">
+                    <span data-translate-key="app_title_part1">Kala</span><span class="text-amber-600 dark:text-amber-400" data-translate-key="app_title_part2">Saarthi</span>
+                </div>
                 <div class="flex items-center space-x-4">
-                    <span id="user-email" class="text-sm text-stone-600 dark:text-stone-300 hidden md:block"></span>
-                    <button id="theme-toggle-btn" class="text-xl text-stone-500 hover:text-amber-800 dark:hover:text-amber-500"><i class="fas fa-sun"></i></button>
-                    <button id="cart-btn" class="relative hidden"><i class="fas fa-shopping-cart text-xl text-stone-600 dark:text-stone-300"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span></button>
-                    <button id="sign-out-btn" class="btn-secondary font-bold py-2 px-4 rounded-lg text-sm">Sign Out</button>
+                    <span id="user-email" class="text-sm text-secondary hidden md:block"></span>
+                    <button id="theme-toggle-btn" class="text-xl text-secondary hover:text-theme"><i class="fas fa-sun"></i></button>
+                    <!-- NEW: Language Selector -->
+                    <select id="language-selector" class="bg-transparent text-secondary text-sm rounded-lg border-color border p-2 focus:ring-1 focus:ring-theme focus:border-theme">
+                        <option value="en-US">English</option>
+                        <option value="hi-IN">हिन्दी</option>
+                        <option value="es-US">Español</option>
+                        <option value="fr-FR">Français</option>
+                        <option value="ja-JP">日本語</option>
+                        <option value="ta-IN">தமிழ்</option>
+                        <option value="ml-IN">മലയാളം</option>
+                        <option value="te-IN">తెలుగు</option>
+                        <option value="kn-IN">ಕನ್ನಡ</option>
+                    </select>
+                    <button id="cart-btn" class="relative hidden"><i class="fas fa-shopping-cart text-xl text-secondary"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span></button>
+                    <button id="sign-out-btn" data-translate-key="btn_sign_out" class="btn-secondary font-bold py-2 px-4 rounded-lg text-sm">Sign Out</button>
                 </div>
             </div>
             <nav id="app-nav" class="flex border-b border-color">
-                <button data-view="home-view" class="tab py-3 px-4 text-sm font-medium text-stone-500 dark:text-stone-400 border-b-2 border-transparent hover:text-amber-700">Home</button>
-                <button data-view="marketplace-view" class="tab py-3 px-4 text-sm font-medium text-stone-500 dark:text-stone-400 border-b-2 border-transparent hover:text-amber-700">Marketplace</button>
-                <button data-view="dashboard-view" class="tab py-3 px-4 text-sm font-medium text-stone-500 dark:text-stone-400 border-b-2 border-transparent hover:text-amber-700">My Dashboard</button>
-                <button data-view="support-view" class="tab py-3 px-4 text-sm font-medium text-stone-500 dark:text-stone-400 border-b-2 border-transparent hover:text-amber-700">Help & Support</button>
+                <button data-view="home-view" data-translate-key="nav_home" class="tab py-3 px-4 text-sm font-medium">Home</button>
+                <button data-view="marketplace-view" data-translate-key="nav_marketplace" class="tab py-3 px-4 text-sm font-medium">Marketplace</button>
+                <button data-view="dashboard-view" data-translate-key="nav_dashboard" class="tab py-3 px-4 text-sm font-medium">My Dashboard</button>
+                <button data-view="support-view" data-translate-key="nav_support" class="tab py-3 px-4 text-sm font-medium">Help & Support</button>
             </nav>
         </div>
     </header>
@@ -84,14 +204,27 @@
     
     <!-- Footer -->
     <footer id="app-footer" class="bg-white dark:bg-stone-800 mt-16 hidden">
-        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-stone-500 dark:text-stone-400 text-sm">
-            <p>&copy; 2025 KalaSaarthi. Empowering Artisans, Celebrating Craft.</p>
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-secondary text-sm">
+            <p data-translate-key="footer_text">&copy; 2025 KalaSaarthi. Empowering Artisans, Celebrating Craft.</p>
         </div>
     </footer>
 
     <!-- MODALS -->
     <div id="delete-confirm-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 h-full w-full z-50 flex items-center justify-center"></div>
     <div id="filter-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 h-full w-full z-50 flex items-center justify-center"></div>
+    
+    <!-- NEW: Camera Modal -->
+    <div id="camera-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 h-full w-full z-[60] flex flex-col items-center justify-center p-4">
+        <div class="card p-4 rounded-lg w-full max-w-lg">
+            <h3 class="text-xl font-bold text-primary mb-4" data-translate-key="camera_title">Camera Capture</h3>
+            <video id="camera-feed" class="w-full h-64 bg-stone-800 rounded-lg object-cover" autoplay playsinline></video>
+            <canvas id="camera-canvas" class="hidden"></canvas>
+            <div class="flex justify-center gap-4 mt-4">
+                <button id="cancel-camera-btn" class="btn-secondary py-2 px-6 rounded-lg" data-translate-key="btn_cancel">Cancel</button>
+                <button id="take-photo-btn" class="btn-primary py-2 px-6 rounded-lg" data-translate-key="btn_take_photo">Take Photo</button>
+            </div>
+        </div>
+    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -99,26 +232,35 @@
         import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, doc, setDoc, getDoc, where, writeBatch, updateDoc, deleteDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
         const firebaseConfig = {
-            apiKey: ,
-            authDomain: ,
-            projectId: ,
-            storageBucket: ,
-            messagingSenderId: ,
-            appId: 
-            measurementId:
+            apiKey: "---------------------",
+            authDomain: "-----------------",
+            projectId: "------------------",
+            storageBucket: "--------------",
+            messagingSenderId: "----------",
+            appId: "----------------------",
+            measurementId: "--------------"
         };
         
         // ====================================================================================
-        // IMPORTANT: PASTE YOUR GEMINI API KEY HERE
-        // You can get a free key from Google AI Studio: https://aistudio.google.com/
+        // Gemini API Key
         // ====================================================================================
-        const GEMINI_API_KEY = "YOUR_API";
+        const GEMINI_API_KEY = "GEMINI_API_KEY";
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
         
         let currentUser = null, allProducts = [], cart = [], isSignUpMode = false, productsUnsubscribe = null, uploadedImageUrls = [];
+        let productsLoaded = false;
+        let initialCategoryFilter = null;
+        let initialSearchTerm = "";
+        
+        // NEW: Multilingual and Voice State
+        let currentLang = localStorage.getItem('lang') || 'en-US';
+        let homeRecognition = null; // For home page search
+        let marketRecognition = null; // For marketplace search
+        let storyRecognition = null; // For story recording
+        let productTranslationsCache = {}; // Cache for product translations
 
         const ui = {
             appHeader: document.getElementById('app-header'),
@@ -133,7 +275,220 @@
             signOutBtn: document.getElementById('sign-out-btn'),
             deleteModal: document.getElementById('delete-confirm-modal'),
             filterModal: document.getElementById('filter-modal'),
+            languageSelector: document.getElementById('language-selector'),
+            // NEW: Camera Modal UI
+            cameraModal: document.getElementById('camera-modal')
         };
+
+        // ====================================================================================
+        // NEW: Global Constants for UI Elements
+        // ====================================================================================
+        
+        const CATEGORIES = [
+            { id: 'Saree', icon: 'fa-tshirt', key: 'cat_saree' },
+            { id: 'Jewelry', icon: 'fa-gem', key: 'cat_jewelry' },
+            { id: 'Painting', icon: 'fa-palette', key: 'cat_painting' },
+            { id: 'Pottery', icon: 'fa-bowling-ball', key: 'cat_pottery' },
+            { id: 'Other', icon: 'fa-box', key: 'cat_other' }
+        ];
+
+        const COLORS = [
+            { id: 'all', key: 'filter_all' },
+            { id: 'Red', key: 'color_red' },
+            { id: 'Blue', key: 'color_blue' },
+            { id: 'Green', key: 'color_green' },
+            { id: 'Gold', key: 'color_gold' },
+            { id: 'Silver', key: 'color_silver' },
+            { id: 'Black', key: 'color_black' },
+            { id: 'White', key: 'color_white' },
+            { id: 'Multicolor', key: 'color_multicolor' }
+        ];
+
+        const SORT_OPTIONS = [
+            { id: 'newest', key: 'filter_sort_newest' },
+            { id: 'price-asc', key: 'filter_sort_price_asc' },
+            { id: 'price-desc', key: 'filter_sort_price_desc' }
+        ];
+
+        // ====================================================================================
+        // NEW: Multilingual Functions (Expanded)
+        // ====================================================================================
+        const translations = {
+            'en-US': {
+                'app_title_part1': 'Kala', 'app_title_part2': 'Saarthi',
+                'btn_sign_out': 'Sign Out', 'nav_home': 'Home', 'nav_marketplace': 'Marketplace', 'nav_dashboard': 'My Dashboard', 'nav_support': 'Help & Support',
+                'footer_text': '© 2025 KalaSaarthi. Empowering Artisans, Celebrating Craft.',
+                'home_discover': 'Discover Authentic Indian Handicrafts', 'home_discover_sub': 'A marketplace dedicated to bringing the finest work of local artisans directly to you. Every piece tells a story.', 'home_search_placeholder': 'Search for products...', 'home_shop_by_cat': 'Shop by Category',
+                'market_explore': 'Explore Crafts', 'market_search_placeholder': 'Search marketplace...', 'market_filters': 'Filters', 'market_no_products': 'No Products Found',
+                'filter_title': 'Filters', 'filter_category': 'Category', 'filter_all': 'All', 'filter_color': 'Color', 'filter_price': 'Price', 'filter_price_up_to': 'Up to ₹', 'filter_sort_by': 'Sort By', 'filter_sort_newest': 'Newest', 'filter_sort_price_asc': 'Price: Low to High', 'filter_sort_price_desc': 'Price: High to Low', 'filter_apply': 'Apply Filters',
+                'product_sold_out': 'Sold Out', 'product_add_to_cart': 'Add to Cart', 'product_mark_sold': 'Mark as Sold', 'product_mark_available': 'Mark as Available', 'product_translate': 'Translate Description', 'product_back': 'Back', 'product_translating': 'Translating...',
+                'dashboard_seller_title': 'Seller Dashboard', 'dashboard_new_listing': 'Create New Listing', 'dashboard_my_products': 'My Products', 'dashboard_sales': 'Sales Analytics', 'dashboard_buyer_title': 'My Dashboard', 'dashboard_my_orders': 'My Orders', 'dashboard_my_profile': 'My Profile', 'dashboard_address_name': 'Full Name', 'dashboard_address_street': 'Shipping Address', 'dashboard_address_city': 'City', 'dashboard_address_pincode': 'Pincode', 'dashboard_save_address': 'Save Address', 'dashboard_my_wishlist': 'My Wishlist', 'dashboard_no_orders': "You haven't placed any orders yet.", 'dashboard_no_products': "You haven't listed any products yet.", 'dashboard_no_wishlist': 'Your wishlist is empty.',
+                'cart_title': 'My Cart', 'cart_empty': 'Your Cart is Empty', 'cart_total': 'Total', 'cart_checkout': 'Place Order',
+                'support_title': 'Help & Support', 'support_text': 'For any queries, please contact us at', 'support_coming_soon': 'Our customer service feature is coming soon!',
+                'create_step1': 'Step 1: Upload Photo', 'create_step1_prompt': 'Click to upload an image or drag and drop', 'create_step1_size': 'Max 500KB', 'create_step1_or': 'OR', 'create_step1_camera': 'Use Camera', 'create_btn_next': 'Next',
+                'create_step2': 'Step 2: Add Details & Story', 'create_step2_story': 'Share your story...', 'create_btn_back': 'Back', 'create_btn_generate': 'Generate', 'create_btn_record_story': 'Record Story', 'create_btn_stop_record': 'Stop Recording',
+                'create_step3': 'Step 3: Review & Publish', 'create_step3_generating': 'Generating content...', 'create_title': 'Title', 'create_desc': 'Description', 'create_tags': 'Tags (comma-separated)', 'create_price': 'Price (INR)', 'create_btn_publish': 'Publish',
+                'create_success_title': 'Published!', 'create_success_another': 'Create Another',
+                'camera_title': 'Camera Capture', 'btn_cancel': 'Cancel', 'btn_take_photo': 'Take Photo', 'btn_delete': 'Delete', 'delete_title': 'Delete Product', 'delete_confirm': 'Are you sure? This action is permanent.',
+                'cat_saree': 'Saree', 'cat_jewelry': 'Jewelry', 'cat_painting': 'Painting', 'cat_pottery': 'Pottery', 'cat_other': 'Other',
+                'color_red': 'Red', 'color_blue': 'Blue', 'color_green': 'Green', 'color_gold': 'Gold', 'color_silver': 'Silver', 'color_black': 'Black', 'color_white': 'White', 'color_multicolor': 'Multicolor'
+            },
+            'hi-IN': {
+                'app_title_part1': 'कला', 'app_title_part2': 'सारथी',
+                'btn_sign_out': 'साइन आउट', 'nav_home': 'होम', 'nav_marketplace': 'बाज़ार', 'nav_dashboard': 'मेरा डैशबोर्ड', 'nav_support': 'सहायता',
+                'footer_text': '© 2025 कलासारथी। कारीगरों को सशक्त बनाना, शिल्प का जश्न मनाना।',
+                'home_discover': 'प्रामाणिक भारतीय हस्तशिल्प खोजें', 'home_discover_sub': 'स्थानीय कारीगरों का बेहतरीन काम सीधे आप तक लाने के लिए समर्पित एक बाज़ार। हर टुकड़ा एक कहानी कहता है।', 'home_search_placeholder': 'उत्पादों की खोज करें...', 'home_shop_by_cat': 'श्रेणी के अनुसार खरीदारी करें',
+                'market_explore': 'शिल्प का अन्वेषण करें', 'market_search_placeholder': 'बाज़ार खोजें...', 'market_filters': 'फिल्टर', 'market_no_products': 'कोई उत्पाद नहीं मिला',
+                'filter_title': 'फिल्टर', 'filter_category': 'श्रेणी', 'filter_all': 'सभी', 'filter_color': 'रंग', 'filter_price': 'कीमत', 'filter_price_up_to': '₹ तक', 'filter_sort_by': 'इसके अनुसार क्रमबद्ध करें', 'filter_sort_newest': 'नवीनतम', 'filter_sort_price_asc': 'कीमत: कम से ज्यादा', 'filter_sort_price_desc': 'कीमत: ज्यादा से कम', 'filter_apply': 'फिल्टर लागू करें',
+                'product_sold_out': 'बिक गया', 'product_add_to_cart': 'कार्ट में डालें', 'product_mark_sold': 'बिका हुआ चिह्नित करें', 'product_mark_available': 'उपलब्ध चिह्नित करें', 'product_translate': 'विवरण का अनुवाद करें', 'product_back': 'वापस', 'product_translating': 'अनुवाद हो रहा है...',
+                'dashboard_seller_title': 'विक्रेता डैशबोर्ड', 'dashboard_new_listing': 'नई लिस्टिंग बनाएं', 'dashboard_my_products': 'मेरे उत्पाद', 'dashboard_sales': 'बिक्री विश्लेषण', 'dashboard_buyer_title': 'मेरा डैशबोर्ड', 'dashboard_my_orders': 'मेरे आर्डर', 'dashboard_my_profile': 'मेरी प्रोफाइल', 'dashboard_address_name': 'पूरा नाम', 'dashboard_address_street': 'शिपिंग पता', 'dashboard_address_city': 'शहर', 'dashboard_address_pincode': 'पिन कोड', 'dashboard_save_address': 'पता सहेजें', 'dashboard_my_wishlist': 'मेरी इच्छासूची', 'dashboard_no_orders': 'आपने अभी तक कोई आर्डर नहीं दिया है।', 'dashboard_no_products': 'आपने अभी तक कोई उत्पाद सूचीबद्ध नहीं किया है।', 'dashboard_no_wishlist': 'आपकी इच्छासूची खाली है।',
+                'cart_title': 'मेरी कार्ट', 'cart_empty': 'आपकी कार्ट खाली है', 'cart_total': 'कुल', 'cart_checkout': 'आर्डर दें',
+                'support_title': 'सहायता और समर्थन', 'support_text': 'किसी भी प्रश्न के लिए, कृपया हमसे संपर्क करें', 'support_coming_soon': 'हमारी ग्राहक सेवा सुविधा जल्द ही आ रही है!',
+                'create_step1': 'चरण 1: फोटो अपलोड करें', 'create_step1_prompt': 'छवि अपलोड करने के लिए क्लिक करें या खींचें और छोड़ें', 'create_step1_size': 'अधिकतम 500KB', 'create_step1_or': 'या', 'create_step1_camera': 'कैमरे का उपयोग करें', 'create_btn_next': 'अगला',
+                'create_step2': 'चरण 2: विवरण और कहानी जोड़ें', 'create_step2_story': 'अपनी कहानी साझा करें...', 'create_btn_back': 'वापस', 'create_btn_generate': 'उत्पन्न करें', 'create_btn_record_story': 'कहानी रिकॉर्ड करें', 'create_btn_stop_record': 'रिकॉर्डिंग रोकें',
+                'create_step3': 'चरण 3: समीक्षा करें और प्रकाशित करें', 'create_step3_generating': 'सामग्री उत्पन्न हो रही है...', 'create_title': 'शीर्षक', 'create_desc': 'विवरण', 'create_tags': 'टैग (अल्पविराम से अलग)', 'create_price': 'कीमत (INR)', 'create_btn_publish': 'प्रकाशित करें',
+                'create_success_title': 'प्रकाशित!', 'create_success_another': 'दूसरा बनाएं',
+                'camera_title': 'कैमरा कैप्चर', 'btn_cancel': 'रद्द करें', 'btn_take_photo': 'फोटो लें', 'btn_delete': 'हटाएं', 'delete_title': 'उत्पाद हटाएं', 'delete_confirm': 'क्या आप निश्चित हैं? यह कार्रवाई स्थायी है।',
+                'cat_saree': 'साड़ी', 'cat_jewelry': 'आभूषण', 'cat_painting': 'चित्र', 'cat_pottery': 'मिट्टी के बर्तन', 'cat_other': 'अन्य',
+                'color_red': 'लाल', 'color_blue': 'नीला', 'color_green': 'हरा', 'color_gold': 'सुनहरा', 'color_silver': 'चांदी', 'color_black': 'काला', 'color_white': 'सफ़ेद', 'color_multicolor': 'बहुरंगी'
+            },
+            'es-US': {
+                'app_title_part1': 'Kala', 'app_title_part2': 'Saarthi',
+                'btn_sign_out': 'Cerrar Sesión', 'nav_home': 'Inicio', 'nav_marketplace': 'Mercado', 'nav_dashboard': 'Mi Panel', 'nav_support': 'Ayuda',
+                'footer_text': '© 2025 KalaSaarthi. Empoderando Artesanos, Celebrando la Artesanía.',
+                'home_discover': 'Descubre Auténticas Artesanías Indias', 'home_discover_sub': 'Un mercado dedicado a traerte el mejor trabajo de los artesanos locales. Cada pieza cuenta una historia.', 'home_search_placeholder': 'Buscar productos...', 'home_shop_by_cat': 'Comprar por Categoría',
+                'market_explore': 'Explorar Artesanías', 'market_search_placeholder': 'Buscar en el mercado...', 'market_filters': 'Filtros', 'market_no_products': 'No se Encontraron Productos',
+                'filter_title': 'Filtros', 'filter_category': 'Categoría', 'filter_all': 'Todo', 'filter_color': 'Color', 'filter_price': 'Precio', 'filter_price_up_to': 'Hasta ₹', 'filter_sort_by': 'Ordenar por', 'filter_sort_newest': 'Más Nuevo', 'filter_sort_price_asc': 'Precio: Bajo a Alto', 'filter_sort_price_desc': 'Precio: Alto a Bajo', 'filter_apply': 'Aplicar Filtros',
+                'product_sold_out': 'Agotado', 'product_add_to_cart': 'Añadir al Carrito', 'product_mark_sold': 'Marcar como Vendido', 'product_mark_available': 'Marcar como Disponible', 'product_translate': 'Traducir Descripción', 'product_back': 'Volver', 'product_translating': 'Traduciendo...',
+                'dashboard_seller_title': 'Panel de Vendedor', 'dashboard_new_listing': 'Crear Nueva Publicación', 'dashboard_my_products': 'Mis Productos', 'dashboard_sales': 'Análisis de Ventas', 'dashboard_buyer_title': 'Mi Panel', 'dashboard_my_orders': 'Mis Pedidos', 'dashboard_my_profile': 'Mi Perfil', 'dashboard_address_name': 'Nombre Completo', 'dashboard_address_street': 'Dirección de Envío', 'dashboard_address_city': 'Ciudad', 'dashboard_address_pincode': 'Código Postal', 'dashboard_save_address': 'Guardar Dirección', 'dashboard_my_wishlist': 'Mi Lista de Deseos', 'dashboard_no_orders': 'Aún no has realizado ningún pedido.', 'dashboard_no_products': 'Aún no has publicado ningún producto.', 'dashboard_no_wishlist': 'Tu lista de deseos está vacía.',
+                'cart_title': 'Mi Carrito', 'cart_empty': 'Tu Carrito está Vacío', 'cart_total': 'Total', 'cart_checkout': 'Realizar Pedido',
+                'support_title': 'Ayuda y Soporte', 'support_text': 'Para cualquier consulta, contáctenos en', 'support_coming_soon': '¡Nuestro servicio de atención al cliente llegará pronto!',
+                'create_step1': 'Paso 1: Subir Foto', 'create_step1_prompt': 'Haz clic para subir una imagen o arrastra y suelta', 'create_step1_size': 'Máx 500KB', 'create_step1_or': 'O', 'create_step1_camera': 'Usar Cámara', 'create_btn_next': 'Siguiente',
+                'create_step2': 'Paso 2: Añadir Detalles e Historia', 'create_step2_story': 'Comparte tu historia...', 'create_btn_back': 'Atrás', 'create_btn_generate': 'Generar', 'create_btn_record_story': 'Grabar Historia', 'create_btn_stop_record': 'Detener Grabación',
+                'create_step3': 'Paso 3: Revisar y Publicar', 'create_step3_generating': 'Generando contenido...', 'create_title': 'Título', 'create_desc': 'Descripción', 'create_tags': 'Etiquetas (separadas por coma)', 'create_price': 'Precio (INR)', 'create_btn_publish': 'Publicar',
+                'create_success_title': '¡Publicado!', 'create_success_another': 'Crear Otro',
+                'camera_title': 'Captura de Cámara', 'btn_cancel': 'Cancelar', 'btn_take_photo': 'Tomar Foto', 'btn_delete': 'Eliminar', 'delete_title': 'Eliminar Producto', 'delete_confirm': '¿Estás seguro? Esta acción es permanente.',
+                'cat_saree': 'Sari', 'cat_jewelry': 'Joyería', 'cat_painting': 'Pintura', 'cat_pottery': 'Cerámica', 'cat_other': 'Otro',
+                'color_red': 'Rojo', 'color_blue': 'Azul', 'color_green': 'Verde', 'color_gold': 'Dorado', 'color_silver': 'Plateado', 'color_black': 'Negro', 'color_white': 'Blanco', 'color_multicolor': 'Multicolor'
+            },
+            'fr-FR': { 
+                'app_title_part1': 'Kala', 'app_title_part2': 'Saarthi',
+                'btn_sign_out': 'Déconnexion', 'nav_home': 'Accueil', 'nav_marketplace': 'Marché', 'nav_dashboard': 'Mon Tableau de Bord', 'nav_support': 'Aide',
+                'home_discover': 'Découvrez l\'artisanat indien authentique',
+                'home_discover_sub': 'Un marché dédié à vous apporter le meilleur du travail des artisans locaux. Chaque pièce raconte une histoire.',
+                'home_shop_by_cat': 'Acheter par catégorie',
+                'footer_text': '© 2025 KalaSaarthi. Autonomiser les artisans, célébrer l\'artisanat.',
+                'cat_saree': 'Sari', 'cat_jewelry': 'Bijoux', 'cat_painting': 'Peinture', 'cat_pottery': 'Poterie', 'cat_other': 'Autre',
+                'product_translating': 'Traduction...',
+                'product_mark_sold': 'Marquer comme vendu', 'product_mark_available': 'Marquer comme disponible',
+                // Partial
+            },
+            'ja-JP': { 
+                'app_title_part1': 'カラ', 'app_title_part2': 'サールティ',
+                'btn_sign_out': 'ログアウト', 'nav_home': 'ホーム', 'nav_marketplace': 'マーケット', 'nav_dashboard': 'ダッシュボード', 'nav_support': 'サポート',
+                'home_discover': '本物のインドの手工芸品を発見',
+                'home_discover_sub': '地元の職人による最高の作品を直接お届けするマーケットプレイス。一つ一つの作品に物語があります。',
+                'home_shop_by_cat': 'カテゴリーで探す',
+                'footer_text': '© 2025 KalaSaarthi. 職人を支援し、工芸を祝う。',
+                'cat_saree': 'サリー', 'cat_jewelry': 'ジュエリー', 'cat_painting': '絵画', 'cat_pottery': '陶器', 'cat_other': 'その他',
+                'product_translating': '翻訳中...',
+                'product_mark_sold': '販売済みとしてマーク', 'product_mark_available': '販売中としてマーク',
+                // Partial
+            },
+            'ta-IN': { 
+                'app_title_part1': 'கலா', 'app_title_part2': 'சார்தி',
+                'btn_sign_out': 'வெளியேறு', 'nav_home': 'முகப்பு', 'nav_marketplace': 'சந்தை', 'nav_dashboard': 'டாஷ்போர்டு', 'nav_support': 'உதவி',
+                'home_discover': 'தனித்துவமான இந்திய கைவினைப் பொருட்களைக் கண்டறியுங்கள்',
+                'home_discover_sub': 'உள்ளூர் கைவினைஞர்களின் சிறந்த படைப்புகளை உங்களிடம் நேரடியாகக் கொண்டு வருவதற்கான ஒரு சந்தை. ஒவ்வொரு படைப்பும் ஒரு கதையைச் சொல்கிறது.',
+                'home_shop_by_cat': 'வகை வாரியாக ஷாப்பிங் செய்யுங்கள்',
+                'footer_text': '© 2025 கலாசார்தி. கைவினைஞர்களுக்கு அதிகாரமளித்தல், கைவினைப்பொருட்களை கொண்டாடுதல்.',
+                'cat_saree': 'புடவை', 'cat_jewelry': 'நகைகள்', 'cat_painting': 'ஓவியம்', 'cat_pottery': 'மட்பாண்டம்', 'cat_other': 'மற்றவை',
+                'product_translating': 'மொழிபெயர்க்கிறது...',
+                'product_mark_sold': 'விற்றதாகக் குறிக்கவும்', 'product_mark_available': 'இருப்பதாகக் குறிக்கவும்',
+                // Partial
+            },
+            'ml-IN': { 
+                'app_title_part1': 'കല', 'app_title_part2': 'സാരഥി',
+                'btn_sign_out': 'ലോഗ് ഔട്ട്', 'nav_home': 'ഹോം', 'nav_marketplace': 'വിപണി', 'nav_dashboard': 'ഡാഷ്ബോർഡ്', 'nav_support': 'സഹായം',
+                'home_discover': 'യഥാർത്ഥ ഇന്ത്യൻ കരകൗശലവസ്തുക്കൾ കണ്ടെത്തുക',
+                'home_discover_sub': 'പ്രാദേശിക കരകൗശല വിദഗ്ധരുടെ മികച്ച സൃഷ്ടികൾ നിങ്ങളിലേക്ക് നേരിട്ട് എത്തിക്കുന്ന ഒരു വിപണന കേന്ദ്രം. ഓരോ ഭാഗവും ഒരു കഥ പറയുന്നു.',
+                'home_shop_by_cat': 'വിഭാഗം അനുസരിച്ച് ഷോപ്പുചെയ്യുക',
+                'footer_text': '© 2025 കലാസാരഥി. കരകൗശലത്തൊഴിലാളികളെ ശാക്തീകരിക്കുന്നു, കരവിരുത് ആഘോഷിക്കുന്നു.',
+                'cat_saree': 'സാരി', 'cat_jewelry': 'ആഭരണങ്ങൾ', 'cat_painting': 'പെയിന്റിംഗ്', 'cat_pottery': 'മൺപാത്രങ്ങൾ', 'cat_other': 'മറ്റുള്ളവ',
+                'product_translating': 'വിവർത്തനം ചെയ്യുന്നു...',
+                'product_mark_sold': 'വിറ്റതായി അടയാളപ്പെടുത്തുക', 'product_mark_available': 'ലഭ്യമായി അടയാളപ്പെടുത്തുക',
+                // Partial
+            },
+            'te-IN': { 
+                'app_title_part1': 'కళా', 'app_title_part2': 'సారథి',
+                'btn_sign_out': 'లాగ్ అవుట్', 'nav_home': 'హోమ్', 'nav_marketplace': 'మార్కెట్', 'nav_dashboard': 'డాష్‌బోర్డ్', 'nav_support': 'సహాయం',
+                'home_discover': 'ప్రామాణికమైన భారతీయ హస్తకళలను కనుగొనండి',
+                'home_discover_sub': 'స్థానిక కళాకారుల యొక్క ఉత్తమమైన పనిని నేరుగా మీ ముందుకు తీసుకురావడానికి అంకితమైన ఒక మార్కెట్ ప్లేస్. ప్రతి భాగం ఒక కథ చెబుతుంది.',
+                'home_shop_by_cat': 'వర్గం వారీగా షాపింగ్ చేయండి',
+                'footer_text': '© 2025 కలాసారథి. కళాకారులను శక్తివంతం చేయడం, చేతిపనులను జరుపుకోవడం.',
+                'cat_saree': 'చీర', 'cat_jewelry': 'ఆభరణాలు', 'cat_painting': 'చిత్రలేఖనం', 'cat_pottery': 'కుండలు', 'cat_other': 'ఇతర',
+                'product_translating': 'అనువదిస్తోంది...',
+                'product_mark_sold': 'అమ్మినట్లుగా గుర్తించండి', 'product_mark_available': 'అందుబాటులో ఉన్నట్లు గుర్తించండి',
+                // Partial
+            },
+            'kn-IN': { 
+                'app_title_part1': 'ಕಲಾ', 'app_title_part2': 'ಸಾರಥಿ',
+                'btn_sign_out': 'ಲಾಗ್ ಔಟ್', 'nav_home': 'ಮನೆ', 'nav_marketplace': 'ಮಾರುಕಟ್ಟೆ', 'nav_dashboard': 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್', 'nav_support': 'ಸಹಾಯ',
+                'home_discover': 'ಅಪ್ಪಟ ಭಾರತೀಯ ಕರಕುಶಲ ವಸ್ತುಗಳನ್ನು ಅನ್ವೇಷಿಸಿ',
+                'home_discover_sub': 'ಸ್ಥಳೀಯ ಕುಶಲಕರ್ಮಿಗಳ ಅತ್ಯುತ್ತມ ಕೆಲಸವನ್ನು ನೇರವಾಗಿ ನಿಮ್ಮ ಬಳಿಗೆ ತರಲು ಮೀಸಲಾಗಿರುವ ಮಾರುಕಟ್ಟೆ. ಪ್ರತಿಯೊಂದು ತುಣುಕು ಒಂದು ಕಥೆಯನ್ನು ಹೇಳುತ್ತದೆ.',
+                'home_shop_by_cat': 'ವರ್ಗದ ಮೂಲಕ ಶಾಪಿಂಗ್ ಮಾಡಿ',
+                'footer_text': '© 2025 ಕಲಾಸಾರಥಿ. ಕುಶಲಕರ್ಮಿಗಳನ್ನು ಸಬಲೀಕರಿಸುವುದು, ಕರಕುಶಲತೆಯನ್ನು ಆಚರಿಸುವುದು.',
+                'cat_saree': 'ಸೀರೆ', 'cat_jewelry': 'ಆಭರಣ', 'cat_painting': 'ಚಿತ್ರಕಲೆ', 'cat_pottery': 'ಕುಂಬಾರಿಕೆ', 'cat_other': 'ಇತರೆ',
+                'product_translating': 'ಭಾಷಾಂತರಿಸಲಾಗುತ್ತಿದೆ...',
+                'product_mark_sold': 'ಮಾರಾಟವಾಗಿದೆ ಎಂದು ಗುರುತಿಸಿ', 'product_mark_available': 'ಲಭ್ಯವಿದೆ ಎಂದು ಗುರುತಿಸಿ',
+                // Partial
+            }
+        };
+
+        function translateUI(lang, calledFromLanguageSelector = false) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            ui.languageSelector.value = lang;
+
+            const langMap = translations[lang] || translations['en-US'];
+
+            document.querySelectorAll('[data-translate-key]').forEach(el => {
+                const key = el.dataset.translateKey;
+                // FIX: Fallback to English if translation is missing in the current language map
+                const translation = langMap[key] || translations['en-US'][key];
+                
+                if (translation) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = translation;
+                    } else {
+                        // This handles the logo split
+                        if (key === 'app_title_part1' || key === 'app_title_part2') {
+                            el.innerText = translation;
+                        }
+                        // Only update innerText if it's not a parent of other translated elements
+                        else if (!el.querySelector('[data-translate-key]')) {
+                            el.innerText = translation;
+                        }
+                    }
+                }
+            });
+
+            // FIX: Re-render the *current* view to update dynamic content (like dropdowns)
+            // Only do this if the language was *explicitly* changed by the user
+            if (calledFromLanguageSelector) {
+                const activeEl = document.querySelector('.view-section.active');
+                const activeView = activeEl ? activeEl.id : null;
+                if(activeView && activeView !== 'auth-view') {
+                    // Re-run the render function for the active view
+                    setActiveView(activeView, true); // Pass a flag to prevent re-translation
+                }
+            }
+        }
+
+        ui.languageSelector.addEventListener('change', (e) => {
+            translateUI(e.target.value, true); // Pass true to signal explicit change
+        });
+        // ====================================================================================
 
         function showNotification(message, type = 'success') {
             const container = document.getElementById('notification-container');
@@ -182,9 +537,11 @@
         function listenToProducts() {
             productsUnsubscribe = onSnapshot(query(collection(db, "products")), (snapshot) => {
                 allProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                const activeView = document.querySelector('.view-section.active')?.id;
+                productsLoaded = true; // Set loading flag
+                const activeEl = document.querySelector('.view-section.active');
+                const activeView = activeEl ? activeEl.id : null;
                 if (['marketplace-view', 'home-view', 'dashboard-view'].includes(activeView)) {
-                    setActiveView(activeView);
+                    setActiveView(activeView, true); // Pass flag to avoid re-translation loop
                 }
             });
         }
@@ -196,6 +553,7 @@
             ui.cartBtn.classList.toggle('hidden', currentUser.role !== 'buyer');
             applyTheme(localStorage.getItem('theme') || 'light');
             setActiveView('home-view');
+            translateUI(currentLang); // Apply initial language on load
         }
 
         function showView(viewId) {
@@ -203,7 +561,7 @@
             document.getElementById(viewId)?.classList.add('active');
         }
 
-        function setActiveView(viewId) {
+        function setActiveView(viewId, calledInternally = false) {
             document.querySelectorAll('#app-nav .tab').forEach(t => t.classList.toggle('active', t.dataset.view === viewId) );
             const viewRenderers = {
                 'home-view': renderHome, 'dashboard-view': renderDashboard,
@@ -212,27 +570,61 @@
             };
             viewRenderers[viewId]?.();
             showView(viewId);
+            
+            // FIX: Only translate if not called internally by translation or data load
+            // AND not auth-view
+            if (!calledInternally && viewId !== 'auth-view') {
+                translateUI(currentLang);
+            }
         }
 
         function setLoading(button, isLoading, text) {
             button.disabled = isLoading;
-            button.innerHTML = isLoading ? `<div class="btn-spinner animate-spin"></div>` : text;
+            button.innerHTML = isLoading ? `<div class="btn-spinner"></div>` : text;
         }
         
-        ui.appNav.addEventListener('click', (e) => { if (e.target.matches('.tab')) setActiveView(e.target.dataset.view); });
+        ui.appNav.addEventListener('click', (e) => {
+            if (e.target.matches('.tab')) {
+                if (e.target.dataset.view !== 'marketplace-view') {
+                    // User clicked *away* from marketplace, reset filters
+                    initialCategoryFilter = null;
+                    initialSearchTerm = "";
+                } else {
+                    // User *explicitly* clicked "Marketplace" tab, reset filters to 'all'
+                    initialCategoryFilter = 'all'; 
+                    initialSearchTerm = '';
+                }
+                setActiveView(e.target.dataset.view);
+            }
+        });
         ui.logoBtn.addEventListener('click', () => setActiveView('home-view'));
         ui.cartBtn.addEventListener('click', () => setActiveView('cart-view'));
         ui.signOutBtn.addEventListener('click', () => signOut(auth));
 
+        // MODIFIED: This function now uses hardcoded English strings
         function renderAuthView() {
             const container = document.getElementById('auth-view');
-            container.innerHTML = `<div class="card max-w-md mx-auto p-8 rounded-2xl shadow-lg"><div class="text-center mb-8"><h1 class="text-3xl font-bold text-theme">Welcome</h1></div><div id="auth-error" class="hidden bg-red-100 text-red-700 px-4 py-3 rounded-lg mb-6"><span id="auth-error-message"></span></div><form id="auth-form" class="space-y-4"><input type="email" id="email-input" placeholder="Email Address" required class="w-full p-3 border rounded-lg bg-transparent border-color"><input type="password" id="password-input" placeholder="Password" required class="w-full p-3 border rounded-lg bg-transparent border-color"><div id="role-selection" class="hidden pt-2"><p class="text-sm font-medium text-secondary mb-2">I am a:</p><div class="flex space-x-4"><label class="flex-1"><input type="radio" name="role" value="buyer" class="sr-only peer" checked><div class="p-4 border rounded-lg cursor-pointer peer-checked:bg-amber-100 dark:peer-checked:bg-amber-900 peer-checked:border-amber-700">Buyer</div></label><label class="flex-1"><input type="radio" name="role" value="seller" class="sr-only peer"><div class="p-4 border rounded-lg cursor-pointer peer-checked:bg-amber-100 dark:peer-checked:bg-amber-900 peer-checked:border-amber-700">Seller</div></label></div></div><button type="submit" id="auth-submit-btn" class="w-full btn-primary font-bold py-3 rounded-lg flex items-center justify-center"></button></form><p class="text-center text-sm mt-6 text-secondary"><span id="auth-prompt-text"></span> <a href="#" id="auth-toggle-link" class="font-semibold text-theme"></a></p></div>`;
+            container.innerHTML = `<div class="card max-w-md mx-auto p-8 rounded-2xl shadow-lg"><div class="text-center mb-8"><h1 class="text-3xl font-bold text-theme">Welcome</h1></div><div id="auth-error" class="hidden bg-red-100 text-red-700 px-4 py-3 rounded-lg mb-6"><span id="auth-error-message"></span></div><form id="auth-form" class="space-y-4">
+                <input type="email" id="email-input" placeholder="Email Address" required class="w-full p-3 border rounded-lg bg-transparent border-color">
+                <input type="password" id="password-input" placeholder="Password" required class="w-full p-3 border rounded-lg bg-transparent border-color">
+                <div id="role-selection" class="hidden pt-2">
+                    <p class="text-sm font-medium text-secondary mb-2">I am a:</p>
+                    <div class="flex space-x-4">
+                        <label class="flex-1"><input type="radio" name="role" value="buyer" class="sr-only peer" checked><div class="p-4 border rounded-lg cursor-pointer peer-checked:bg-amber-100 dark:peer-checked:bg-amber-900 peer-checked:border-amber-700">Buyer</div></label>
+                        <label class="flex-1"><input type="radio" name="role" value="seller" class="sr-only peer"><div class="p-4 border rounded-lg cursor-pointer peer-checked:bg-amber-100 dark:peer-checked:bg-amber-900 peer-checked:border-amber-700">Seller</div></label>
+                    </div>
+                </div>
+                <button type="submit" id="auth-submit-btn" class="w-full btn-primary font-bold py-3 rounded-lg flex items-center justify-center"></button>
+                </form>
+                <p class="text-center text-sm mt-6 text-secondary"><span id="auth-prompt-text"></span> <a href="#" id="auth-toggle-link" class="font-semibold text-theme"></a></p>
+            </div>`;
             container.querySelector('#auth-form').addEventListener('submit', handleAuthSubmit);
             container.querySelector('#auth-toggle-link').addEventListener('click', (e) => { e.preventDefault(); toggleAuthMode(); });
             isSignUpMode = true; // Set to true initially so the first call to toggleAuthMode sets it to false (Sign In)
             toggleAuthMode();
         }
 
+        // MODIFIED: This function now uses hardcoded English strings
         function toggleAuthMode() {
             isSignUpMode = !isSignUpMode;
             const authForm = document.getElementById('auth-form');
@@ -245,7 +637,8 @@
                 document.getElementById('auth-toggle-link').textContent = isSignUpMode ? 'Sign In' : 'Sign Up';
             }
         }
-        
+
+        // MODIFIED: This function now uses hardcoded English strings
         async function handleAuthSubmit(e) {
             e.preventDefault();
             const text = isSignUpMode ? 'Sign Up' : 'Sign In';
@@ -268,70 +661,177 @@
 
         function renderHome() {
             const container = document.getElementById('home-view');
-            container.innerHTML = `<div class="card rounded-2xl shadow-lg p-8 text-center"><h2 class="text-4xl font-bold text-primary">Discover Authentic Indian Handicrafts</h2><p class="text-secondary mt-4 max-w-2xl mx-auto">A marketplace dedicated to bringing the finest work of local artisans directly to you. Every piece tells a story.</p><div class="mt-8 max-w-lg mx-auto"><div class="relative"><i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i><input type="text" id="home-search-input" placeholder="Search for products..." class="w-full p-4 pl-12 border rounded-full focus:ring-2 focus:ring-amber-500 bg-transparent border-color"><button id="voice-search-btn" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-amber-500"><i class="fas fa-microphone"></i></button></div></div></div><div class="mt-12"><h3 class="text-2xl font-bold mb-6 text-primary">Shop by Category</h3><div id="category-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div></div><div class="mt-12"><h3 class="text-2xl font-bold mb-6 text-primary">Featured Products</h3><div id="featured-products-grid" class="grid grid-cols-1 md:grid-cols-4 gap-6"></div></div>`;
+            container.innerHTML = `<div class="card rounded-2xl shadow-lg p-8 text-center">
+                <h2 class="text-4xl font-bold text-primary" data-translate-key="home_discover">Discover Authentic Indian Handicrafts</h2>
+                <p class="text-secondary mt-4 max-w-2xl mx-auto" data-translate-key="home_discover_sub">A marketplace dedicated to bringing the finest work of local artisans directly to you. Every piece tells a story.</p>
+                <div class="mt-8 max-w-lg mx-auto">
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="home-search-input" data-translate-key="home_search_placeholder" placeholder="Search for products..." class="w-full p-4 pl-12 border rounded-full focus:ring-2 bg-transparent border-color">
+                        <button id="voice-search-btn" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-theme"><i class="fas fa-microphone"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12">
+                <h3 class="text-2xl font-bold mb-6 text-primary" data-translate-key="home_shop_by_cat">Shop by Category</h3>
+                <div id="category-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
+            </div>`;
             
             document.getElementById('home-search-input').addEventListener('keyup', (e) => {
                 if(e.key === 'Enter') {
+                    const searchTerm = e.target.value;
+                    initialSearchTerm = searchTerm;
                     setActiveView('marketplace-view');
-                    document.getElementById('search-input').value = e.target.value;
-                    applyFiltersAndRender();
                 }
             });
-            document.getElementById('voice-search-btn').addEventListener('click', startVoiceSearch);
+            document.getElementById('voice-search-btn').addEventListener('click', startHomeVoiceSearch);
             
-            const categories = [ { name: 'Saree', icon: 'fa-tshirt' }, { name: 'Jewelry', icon: 'fa-gem' }, { name: 'Painting', icon: 'fa-palette' }, { name: 'Pottery', icon: 'fa-bowling-ball' }];
+            // MODIFIED: Use global CATEGORIES constant and translate
             const categoryGrid = document.getElementById('category-grid');
-            categoryGrid.innerHTML = categories.map(cat => `<div data-category="${cat.name}" class="category-card card p-6 rounded-lg shadow text-center cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-transform"><i class="fas ${cat.icon} text-4xl text-theme"></i><p class="font-bold mt-4 text-primary">${cat.name}</p></div>`).join('');
-            categoryGrid.addEventListener('click', e => {
+            categoryGrid.className = 'grid grid-cols-2 md:grid-cols-5 gap-6';
+            categoryGrid.innerHTML = CATEGORIES.map(cat => {
+                const translatedName = (translations[currentLang] && translations[currentLang][cat.key]) || translations['en-US'][cat.key] || cat.id;
+                return `<div data-category="${cat.id}" class="category-card card p-6 rounded-lg shadow text-center cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-transform"><i class="fas ${cat.icon} text-4xl text-theme"></i><p class="font-bold mt-4 text-primary">${translatedName}</p></div>`
+            }).join('');
+            
+            const categoryGridClickListener = e => {
                 const card = e.target.closest('.category-card');
                 if(card) {
+                    initialCategoryFilter = card.dataset.category;
                     setActiveView('marketplace-view');
-                    if (!document.getElementById('filter-category')) { // Create temp element if filter modal hasn't been rendered
-                        const tempSelect = document.createElement('select');
-                        tempSelect.id = 'filter-category';
-                        tempSelect.style.display = 'none';
-                        document.body.appendChild(tempSelect);
-                    }
-                    document.getElementById('filter-category').value = card.dataset.category;
-                    applyFiltersAndRender();
                 }
-            });
-            
-            const featuredGrid = document.getElementById('featured-products-grid');
-            const featuredProducts = allProducts.filter(p => p.status === 'available').slice(0, 4);
-            renderProductGrid(featuredGrid, featuredProducts);
+            };
+            categoryGrid.removeEventListener('click', categoryGridClickListener); // prevent duplicates
+            categoryGrid.addEventListener('click', categoryGridClickListener);
         }
-        
-        function startVoiceSearch() {
-            if (!('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
+
+        // ====================================================================================
+        // NEW: Voice Recognition Functions
+        // ====================================================================================
+
+        function initializeSpeechRecognition(lang) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
                 showNotification("Voice search is not supported by your browser.", "error");
-                return;
+                return null;
             }
-            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-            recognition.lang = 'en-US';
+            const recognition = new SpeechRecognition();
+            recognition.lang = lang;
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+            return recognition;
+        }
+
+        function startHomeVoiceSearch() {
+            homeRecognition = initializeSpeechRecognition(currentLang);
+            if (!homeRecognition) return;
+
             const searchInput = document.getElementById('home-search-input');
             const originalPlaceholder = searchInput.placeholder;
             searchInput.placeholder = "Listening...";
-            recognition.start();
-            recognition.onresult = (event) => {
+            
+            homeRecognition.start();
+            
+            homeRecognition.onresult = (event) => {
                 const speechResult = event.results[0][0].transcript;
                 searchInput.value = speechResult;
+                initialSearchTerm = speechResult;
                 setActiveView('marketplace-view');
-                document.getElementById('search-input').value = speechResult;
-                applyFiltersAndRender();
             };
-            recognition.onspeechend = () => { recognition.stop(); searchInput.placeholder = originalPlaceholder; };
-            recognition.onerror = (event) => { console.error("Voice search error", event.error); searchInput.placeholder = originalPlaceholder; };
+            homeRecognition.onspeechend = () => { homeRecognition.stop(); searchInput.placeholder = originalPlaceholder; };
+            homeRecognition.onerror = (event) => { console.error("Voice search error", event.error); searchInput.placeholder = originalPlaceholder; };
         }
+
+        function startMarketplaceVoiceSearch() {
+            marketRecognition = initializeSpeechRecognition(currentLang);
+            if (!marketRecognition) return;
+
+            const searchInput = document.getElementById('search-input');
+            const searchIcon = document.getElementById('market-voice-search-icon');
+            searchInput.placeholder = "Listening...";
+            searchIcon.classList.remove('fa-microphone');
+            searchIcon.classList.add('fa-stop-circle', 'text-red-500'); // Change icon to stop
+
+            marketRecognition.start();
+
+            marketRecognition.onresult = (event) => {
+                const speechResult = event.results[0][0].transcript;
+                searchInput.value = speechResult;
+                applyFiltersAndRender(); // Filter immediately
+            };
+            marketRecognition.onspeechend = () => { marketRecognition.stop(); };
+            marketRecognition.onerror = (event) => { console.error("Voice search error", event.error); };
+            marketRecognition.onend = () => {
+                const placeholderKey = 'market_search_placeholder';
+                searchInput.placeholder = (translations[currentLang] && translations[currentLang][placeholderKey]) || translations['en-US'][placeholderKey];
+                searchIcon.classList.add('fa-microphone');
+                searchIcon.classList.remove('fa-stop-circle', 'text-red-500');
+            };
+        }
+
+        function startStoryRecording() {
+            storyRecognition = initializeSpeechRecognition(currentLang);
+            if (!storyRecognition) return;
+
+            const recordBtn = document.getElementById('record-story-btn');
+            const stopText = (translations[currentLang] && translations[currentLang]['create_btn_stop_record']) || translations['en-US']['create_btn_stop_record'];
+            recordBtn.innerHTML = `<i class="fas fa-stop-circle mr-2"></i> ${stopText}`;
+            recordBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+            recordBtn.classList.remove('btn-secondary');
+
+            const storyInput = document.getElementById('story-input');
+            storyRecognition.continuous = true;
+            storyRecognition.interimResults = true;
+
+            let final_transcript = storyInput.value ? storyInput.value + ' ' : '';
+
+            storyRecognition.onresult = (event) => {
+                let interim_transcript = '';
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        final_transcript += event.results[i][0].transcript + '. ';
+                    } else {
+                        interim_transcript += event.results[i][0].transcript;
+                    }
+                }
+                storyInput.value = final_transcript + interim_transcript;
+                // Trigger input event to enable 'Generate' button
+                storyInput.dispatchEvent(new Event('input', { bubbles: true }));
+            };
+
+            storyRecognition.onerror = (event) => { console.error("Story recording error", event.error); };
+            storyRecognition.onend = () => {
+                const recordText = (translations[currentLang] && translations[currentLang]['create_btn_record_story']) || translations['en-US']['create_btn_record_story'];
+                recordBtn.innerHTML = `<i class="fas fa-microphone-alt mr-2"></i> ${recordText}`;
+                recordBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
+                recordBtn.classList.add('btn-secondary');
+            };
+
+            storyRecognition.start();
+        }
+
+        function stopStoryRecording() {
+            if (storyRecognition) {
+                storyRecognition.stop();
+            }
+        }
+        // ====================================================================================
 
         function renderDashboard() {
             const container = document.getElementById('dashboard-view');
+            // FIX: Restore the if/else logic for seller vs buyer
             if (currentUser.role === 'seller') {
-                container.innerHTML = `<div class="flex justify-between items-center mb-6"><h2 class="text-3xl font-bold text-primary">Seller Dashboard</h2><button id="go-to-create-btn" class="btn-primary font-bold py-2 px-6 rounded-lg">Create New Listing</button></div><div class="grid grid-cols-1 lg:grid-cols-3 gap-8"><div class="lg:col-span-2 card shadow p-6 rounded-lg"><h3 class="font-semibold mb-4 text-primary">My Products</h3><div id="seller-products-list"></div></div><div class="card shadow p-6 rounded-lg"><h3 class="font-semibold mb-4 text-primary">Sales Analytics</h3><canvas id="sales-chart"></canvas></div></div>`;
+                container.innerHTML = `<div class="flex justify-between items-center mb-6"><h2 class="text-3xl font-bold text-primary" data-translate-key="dashboard_seller_title">Seller Dashboard</h2><button id="go-to-create-btn" class="btn-primary font-bold py-2 px-6 rounded-lg" data-translate-key="dashboard_new_listing">Create New Listing</button></div><div class="grid grid-cols-1 lg:grid-cols-3 gap-8"><div class="lg:col-span-2 card shadow p-6 rounded-lg"><h3 class="font-semibold mb-4 text-primary" data-translate-key="dashboard_my_products">My Products</h3><div id="seller-products-list"></div></div><div class="card shadow p-6 rounded-lg"><h3 class="font-semibold mb-4 text-primary" data-translate-key="dashboard_sales">Sales Analytics</h3><canvas id="sales-chart"></canvas></div></div>`;
                 document.getElementById('go-to-create-btn').addEventListener('click', () => renderCreateProductView());
                 renderSellerProducts();
             } else {
-                container.innerHTML = `<h2 class="text-3xl font-bold mb-6 text-primary">My Dashboard</h2><div class="grid grid-cols-1 md:grid-cols-3 gap-8"><div class="md:col-span-2"><h3 class="text-xl font-semibold mb-4 text-primary">My Orders</h3><div id="buyer-orders-list" class="space-y-4"></div></div><div><h3 class="text-xl font-semibold mb-4 text-primary">My Profile</h3><div class="card shadow p-6 rounded-lg"><form id="address-form" class="space-y-4"><input type="text" id="name" placeholder="Full Name" class="w-full p-2 border rounded bg-transparent border-color" value="${currentUser.address?.name || ''}"><textarea id="address" placeholder="Shipping Address" class="w-full p-2 border rounded bg-transparent border-color" rows="3">${currentUser.address?.address || ''}</textarea><input type="text" id="city" placeholder="City" class="w-full p-2 border rounded bg-transparent border-color" value="${currentUser.address?.city || ''}"><input type="text" id="pincode" placeholder="Pincode" class="w-full p-2 border rounded bg-transparent border-color" value="${currentUser.address?.pincode || ''}"><button type="submit" class="btn-primary font-bold py-2 px-6 rounded-lg">Save Address</button></form></div><h3 class="text-xl font-semibold mt-8 mb-4 text-primary">My Wishlist</h3><div id="wishlist-container" class="space-y-4"></div></div></div>`;
+                container.innerHTML = `<h2 class="text-3xl font-bold mb-6 text-primary" data-translate-key="dashboard_buyer_title">My Dashboard</h2><div class="grid grid-cols-1 md:grid-cols-3 gap-8"><div class="md:col-span-2"><h3 class="text-xl font-semibold mb-4 text-primary" data-translate-key="dashboard_my_orders">My Orders</h3><div id="buyer-orders-list" class="space-y-4"></div></div><div><h3 class="text-xl font-semibold mb-4 text-primary" data-translate-key="dashboard_my_profile">My Profile</h3><div class="card shadow p-6 rounded-lg"><form id="address-form" class="space-y-4">
+                <input type="text" id="name" data-translate-key="dashboard_address_name" placeholder="Full Name" class="w-full p-2 border rounded bg-transparent border-color" value="${(currentUser.address && currentUser.address.name) || ''}">
+                <textarea id="address" data-translate-key="dashboard_address_street" placeholder="Shipping Address" class="w-full p-2 border rounded bg-transparent border-color" rows="3">${(currentUser.address && currentUser.address.address) || ''}</textarea>
+                <input type="text" id="city" data-translate-key="dashboard_address_city" placeholder="City" class="w-full p-2 border rounded bg-transparent border-color" value="${(currentUser.address && currentUser.address.city) || ''}">
+                <input type="text" id="pincode" data-translate-key="dashboard_address_pincode" placeholder="Pincode" class="w-full p-2 border rounded bg-transparent border-color" value="${(currentUser.address && currentUser.address.pincode) || ''}">
+                <button type="submit" class="btn-primary font-bold py-2 px-6 rounded-lg" data-translate-key="dashboard_save_address">Save Address</button>
+                </form></div><h3 class="text-xl font-semibold mt-8 mb-4 text-primary" data-translate-key="dashboard_my_wishlist">My Wishlist</h3><div id="wishlist-container" class="space-y-4"></div></div></div>`;
                 renderBuyerOrders();
                 renderWishlist();
                 document.getElementById('address-form').addEventListener('submit', async (e) => {
@@ -347,8 +847,12 @@
             const listContainer = document.getElementById('seller-products-list');
             const q = query(collection(db, "products"), where("artisan_id", "==", currentUser.uid));
             onSnapshot(q, (snapshot) => {
-                if (snapshot.empty) { listContainer.innerHTML = `<p class="p-8 text-center text-secondary">You haven't listed any products yet.</p>`; return; }
-                listContainer.innerHTML = `<ul class="divide-y divide-gray-200 dark:divide-stone-700">${snapshot.docs.map(doc => { const p = doc.data(); const statusClass = p.status === 'sold' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'; return `<li class="p-4 flex justify-between items-center"><div><p class="font-semibold text-primary">${p.title}</p><p class="text-sm text-secondary">₹${p.price}</p></div><div class="flex items-center space-x-4"><span class="text-xs font-medium px-2 py-1 rounded-full ${statusClass}">${p.status}</span><button data-id="${doc.id}" class="delete-product-btn text-gray-400 hover:text-red-600 text-lg p-2 rounded-full hover:bg-red-100"><i class="fas fa-trash pointer-events-none"></i></button></div></li>`; }).join('')}</ul>`;
+                if (snapshot.empty) { 
+                    const noProductsText = (translations[currentLang] && translations[currentLang]['dashboard_no_products']) || translations['en-US']['dashboard_no_products'];
+                    listContainer.innerHTML = `<p class="p-8 text-center text-secondary">${noProductsText}</p>`; 
+                    return; 
+                }
+                listContainer.innerHTML = `<ul class="divide-y divide-gray-200 dark:divide-stone-700">${snapshot.docs.map(doc => { const p = doc.data(); const statusClass = p.status === 'sold' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'; const statusText = p.status === 'sold' ? ((translations[currentLang] && translations[currentLang]['product_sold_out']) || translations['en-US']['product_sold_out']) : 'Available'; return `<li class="p-4 flex justify-between items-center"><div><p class="font-semibold text-primary">${p.title}</p><p class="text-sm text-secondary">₹${p.price}</p></div><div class="flex items-center space-x-4"><span class="text-xs font-medium px-2 py-1 rounded-full ${statusClass}">${statusText}</span><button data-id="${doc.id}" class="delete-product-btn text-gray-400 hover:text-red-600 text-lg p-2 rounded-full hover:bg-red-100 dark:hover:bg-red-900/50"><i class="fas fa-trash pointer-events-none"></i></button></div></li>`; }).join('')}</ul>`;
             });
             if (!listContainer.dataset.listenerAttached) {
                 listContainer.addEventListener('click', (e) => { const btn = e.target.closest('.delete-product-btn'); if (btn) showDeleteConfirmation(btn.dataset.id); });
@@ -360,29 +864,52 @@
             const q = query(collection(db, "orders"), where("buyer_id", "==", currentUser.uid));
             onSnapshot(q, (snapshot) => {
                 const listEl = document.getElementById('buyer-orders-list');
-                if (snapshot.empty) { listEl.innerHTML = `<p class="p-8 text-center text-secondary card shadow rounded-lg">You haven't placed any orders yet.</p>`; return; }
+                if (snapshot.empty) { 
+                    const noOrdersText = (translations[currentLang] && translations[currentLang]['dashboard_no_orders']) || translations['en-US']['dashboard_no_orders'];
+                    listEl.innerHTML = `<p class="p-8 text-center text-secondary card shadow rounded-lg">${noOrdersText}</p>`; 
+                    return; 
+                }
                 listEl.innerHTML = snapshot.docs.map(doc => { const order = doc.data(); return `<div class="card shadow p-6 rounded-lg"><p class="font-semibold text-secondary text-sm">Order ID: ${doc.id}</p><p class="font-bold text-xl mt-2 text-primary">Total: ₹${order.totalPrice}</p><div class="mt-4"><h4 class="font-semibold text-primary">Items:</h4><ul class="list-disc pl-5 mt-2 text-sm text-secondary">${order.items.map(item => `<li>${item.title}</li>`).join('')}</ul></div></div>`; }).join('');
             });
         }
         
         function renderWishlist() {
             const container = document.getElementById('wishlist-container');
-            const wishlistItems = allProducts.filter(p => currentUser.wishlist?.includes(p.id));
+            const wishlistItems = allProducts.filter(p => currentUser.wishlist && currentUser.wishlist.includes(p.id));
             if(wishlistItems.length === 0) {
-                container.innerHTML = `<div class="card p-6 rounded-lg shadow text-center text-secondary">Your wishlist is empty.</div>`;
+                const noWishlistText = (translations[currentLang] && translations[currentLang]['dashboard_no_wishlist']) || translations['en-US']['dashboard_no_wishlist'];
+                container.innerHTML = `<div class="card p-6 rounded-lg shadow text-center text-secondary">${noWishlistText}</div>`;
                 return;
             }
-            container.innerHTML = `<div class="card rounded-lg shadow"><ul class="divide-y">${wishlistItems.map(p => `<li class="p-4 flex justify-between items-center"><div><p class="font-semibold text-primary">${p.title}</p><p class="text-sm text-secondary">₹${p.price}</p></div><button data-id="${p.id}" class="toggle-wishlist-btn text-red-500"><i class="fas fa-heart"></i></button></li>`).join('')}</ul></div>`;
+            container.innerHTML = `<div class="grid grid-cols-1 gap-4">${wishlistItems.map(p => `
+                <div class="card p-4 rounded-lg shadow flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <img src="${p.images[0]}" class="w-16 h-16 rounded-lg object-cover" onerror="this.onerror=null;this.src='https://placehold.co/100x100/EEE/31343C?text=X';">
+                        <div>
+                            <p class="font-semibold text-primary">${p.title}</p>
+                            <p class="text-sm text-secondary">₹${p.price}</p>
+                        </div>
+                    </div>
+                    <button data-id="${p.id}" class="toggle-wishlist-btn text-red-500 text-xl px-2"><i class="fas fa-heart"></i></button>
+                </div>
+            `).join('')}</div>`;
+            container.addEventListener('click', e => {
+                const btn = e.target.closest('.toggle-wishlist-btn');
+                if(btn) {
+                    toggleWishlist(btn.dataset.id); 
+                }
+            });
         }
         
         function showDeleteConfirmation(productId) {
-            ui.deleteModal.innerHTML = `<div class="relative m-4 w-full max-w-md card shadow-lg rounded-2xl p-6"><div class="mt-3 text-center"><div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100"><i class="fas fa-exclamation-triangle text-red-600 text-xl"></i></div><h3 class="text-lg leading-6 font-medium text-primary mt-2">Delete Product</h3><div class="mt-2 px-7 py-3"><p class="text-sm text-secondary">Are you sure? This action is permanent.</p></div><div class="items-center px-4 py-3"><button id="confirm-delete-btn" data-id="${productId}" class="px-4 py-2 bg-red-600 text-white rounded-md w-auto hover:bg-red-700">Delete</button><button id="cancel-delete-btn" class="px-4 py-2 bg-gray-200 dark:bg-stone-600 rounded-md w-auto ml-2 hover:bg-gray-300">Cancel</button></div></div></div>`;
+            ui.deleteModal.innerHTML = `<div class="relative m-4 w-full max-w-md card shadow-lg rounded-2xl p-6"><div class="mt-3 text-center"><div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100"><i class="fas fa-exclamation-triangle text-red-600 text-xl"></i></div><h3 class="text-lg leading-6 font-medium text-primary mt-2" data-translate-key="delete_title">Delete Product</h3><div class="mt-2 px-7 py-3"><p class="text-sm text-secondary" data-translate-key="delete_confirm">Are you sure? This action is permanent.</p></div><div class="items-center px-4 py-3"><button id="confirm-delete-btn" data-id="${productId}" class="px-4 py-2 bg-red-600 text-white rounded-md w-auto hover:bg-red-700" data-translate-key="btn_delete">Delete</button><button id="cancel-delete-btn" class="px-4 py-2 bg-gray-200 dark:bg-stone-600 rounded-md w-auto ml-2 hover:bg-gray-300" data-translate-key="btn_cancel">Cancel</button></div></div></div>`;
             ui.deleteModal.classList.remove('hidden');
             ui.deleteModal.querySelector('#cancel-delete-btn').addEventListener('click', () => ui.deleteModal.classList.add('hidden'));
             ui.deleteModal.querySelector('#confirm-delete-btn').addEventListener('click', async (e) => {
                 await deleteProduct(e.target.dataset.id);
                 ui.deleteModal.classList.add('hidden');
             });
+            translateUI(currentLang); // Translate the modal
         }
 
         async function deleteProduct(productId) {
@@ -398,25 +925,111 @@
 
         function renderMarketplace() {
             const container = document.getElementById('marketplace-view');
-            container.innerHTML = `<div class="mb-6 flex justify-between items-center"><h2 class="text-3xl font-bold text-primary">Explore Crafts</h2><button id="open-filters-btn" class="btn-secondary font-bold py-2 px-4 rounded-lg"><i class="fas fa-filter mr-2"></i>Filters</button></div><div id="product-grid-container"><div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div><div id="no-products-message" class="hidden text-center py-20 card rounded-lg shadow"><h3 class="text-2xl font-bold text-secondary">No Products Found</h3></div></div><div id="product-detail-view" class="hidden"></div>`;
+            container.innerHTML = `
+            <div class="mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <h2 class="text-3xl font-bold text-primary" data-translate-key="market_explore">Explore Crafts</h2>
+                <div class="flex items-center gap-4 w-full md:w-auto">
+                    <!-- NEW: Search bar with voice -->
+                    <div class="relative flex-grow">
+                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-secondary"></i>
+                        <input type="text" id="search-input" data-translate-key="market_search_placeholder" placeholder="Search marketplace..." class="w-full p-3 pl-12 pr-10 border rounded-full bg-transparent border-color">
+                        <button id="market-voice-search-btn" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-theme"><i id="market-voice-search-icon" class="fas fa-microphone"></i></button>
+                    </div>
+                    <button id="open-filters-btn" class="btn-secondary font-bold py-3 px-5 rounded-lg"><i class="fas fa-filter"></i><span class="hidden sm:inline ml-2" data-translate-key="market_filters">Filters</span></button>
+                </div>
+            </div>
+            <div id="marketplace-loading" class="hidden text-center py-20">
+                <div class="spinner animate-spin mx-auto"></div>
+                <p class="mt-4 text-secondary">Loading products...</p>
+            </div>
+            <div id="product-grid-container"><div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div><div id="no-products-message" class="hidden text-center py-20 card rounded-lg shadow"><h3 class="text-2xl font-bold text-secondary" data-translate-key="market_no_products">No Products Found</h3></div></div><div id="product-detail-view" class="hidden"></div>`;
             
-            container.querySelector('#product-grid').addEventListener('click', e => { const card = e.target.closest('[data-id]'); if (card) renderProductDetail(card.dataset.id); });
+            container.querySelector('#product-grid').addEventListener('click', e => { 
+                const card = e.target.closest('[data-id]'); 
+                const wishlistBtn = e.target.closest('.toggle-wishlist-btn');
+
+                if (wishlistBtn) {
+                    e.stopPropagation(); // Prevent opening detail view
+                    toggleWishlist(wishlistBtn.dataset.id);
+                    return;
+                }
+                if (card) {
+                    renderProductDetail(card.dataset.id);
+                }
+            });
             container.querySelector('#open-filters-btn').addEventListener('click', renderFilterModal);
             
-            applyFiltersAndRender();
+            container.querySelector('#market-voice-search-btn').addEventListener('click', startMarketplaceVoiceSearch);
+
+            const searchInput = container.querySelector('#search-input');
+            if (searchInput) {
+                searchInput.addEventListener('keyup', (e) => {
+                    if (e.key === 'Enter') {
+                        applyFiltersAndRender();
+                    }
+                });
+            }
+            
+            if (!productsLoaded) {
+                document.getElementById('marketplace-loading').classList.remove('hidden');
+                document.getElementById('product-grid-container').classList.add('hidden');
+            } else {
+                if (initialSearchTerm) {
+                    const searchInput = document.getElementById('search-input');
+                    if (searchInput) {
+                        searchInput.value = initialSearchTerm;
+                    }
+                    initialSearchTerm = ""; // Clear after use
+                }
+                applyFiltersAndRender();
+            }
         }
 
         function renderFilterModal() {
-            ui.filterModal.innerHTML = `<div class="relative m-4 w-full max-w-md card shadow-xl rounded-2xl p-8"><div class="flex justify-between items-center mb-6"><h3 class="font-bold text-xl text-primary">Filters</h3><button id="close-filters-btn" class="text-2xl text-secondary hover:text-primary">&times;</button></div><div class="space-y-4"><div><label class="font-semibold text-sm">Category</label><select id="filter-category" class="w-full mt-1 p-2 border rounded bg-transparent border-color"><option value="all">All</option><option>Saree</option><option>Jewelry</option><option>Painting</option><option>Pottery</option></select></div><div><label class="font-semibold text-sm">Color</label><select id="filter-color" class="w-full mt-1 p-2 border rounded bg-transparent border-color"><option value="all">All</option><option>Red</option><option>Blue</option><option>Green</option><option>Gold</option><option>Silver</option></select></div><div><label class="font-semibold text-sm">Price</label><input type="range" id="filter-price" min="0" max="10000" step="500" value="10000" class="w-full mt-1"><span id="price-value" class="text-sm text-secondary">Up to ₹10000</span></div><div><label class="font-semibold text-sm">Sort By</label><select id="sort-by" class="w-full mt-1 p-2 border rounded bg-transparent border-color"><option value="newest">Newest</option><option value="price-asc">Price: Low to High</option><option value="price-desc">Price: High to Low</option></select></div><button id="apply-filters-btn" class="w-full btn-primary py-2 rounded-lg mt-4">Apply Filters</button></div></div>`;
+            // MODIFIED: Build options from global constants
+            const categoryOptions = CATEGORIES.map(cat => {
+                const translatedName = (translations[currentLang] && translations[currentLang][cat.key]) || translations['en-US'][cat.key] || cat.id;
+                return `<option value="${cat.id}">${translatedName}</option>`
+            }).join('');
+            
+            const colorOptions = COLORS.map(col => {
+                const translatedName = (translations[currentLang] && translations[currentLang][col.key]) || translations['en-US'][col.key] || col.id;
+                return `<option value="${col.id}">${translatedName}</option>`
+            }).join('');
+
+            const sortOptions = SORT_OPTIONS.map(sort => {
+                const translatedName = (translations[currentLang] && translations[currentLang][sort.key]) || translations['en-US'][sort.key] || sort.id;
+                return `<option value="${sort.id}">${translatedName}</option>`
+            }).join('');
+
+            ui.filterModal.innerHTML = `<div class="relative m-4 w-full max-w-md card shadow-xl rounded-2xl p-8"><div class="flex justify-between items-center mb-6"><h3 class="font-bold text-xl text-primary" data-translate-key="filter_title">Filters</h3><button id="close-filters-btn" class="text-2xl text-secondary hover:text-primary">&times;</button></div><div class="space-y-4"><div><label class="font-semibold text-sm" data-translate-key="filter_category">Category</label><select id="filter-category" class="w-full mt-1 p-2 border rounded bg-transparent border-color"><option value="all" data-translate-key="filter_all">All</option>${categoryOptions}</select></div><div><label class="font-semibold text-sm" data-translate-key="filter_color">Color</label><select id="filter-color" class="w-full mt-1 p-2 border rounded bg-transparent border-color">${colorOptions}</select></div><div><label class="font-semibold text-sm" data-translate-key="filter_price">Price</label><input type="range" id="filter-price" min="0" max="10000" step="500" value="10000" class="w-full mt-1"><span id="price-value" class="text-sm text-secondary">Up to ₹10000</span></div><div><label class="font-semibold text-sm" data-translate-key="filter_sort_by">Sort By</label><select id="sort-by" class="w-full mt-1 p-2 border rounded bg-transparent border-color">${sortOptions}</select></div><button id="apply-filters-btn" class="w-full btn-primary py-2 rounded-lg mt-4" data-translate-key="filter_apply">Apply Filters</button></div></div>`;
             ui.filterModal.classList.remove('hidden');
             ui.filterModal.querySelector('#close-filters-btn').addEventListener('click', () => ui.filterModal.classList.add('hidden'));
             ui.filterModal.querySelector('#apply-filters-btn').addEventListener('click', () => {
                 applyFiltersAndRender();
                 ui.filterModal.classList.add('hidden');
             });
+            // Set initial price text
+            const priceValue = ui.filterModal.querySelector('#price-value');
+            const priceText = (translations[currentLang] && translations[currentLang]['filter_price_up_to']) || translations['en-US']['filter_price_up_to'];
+            priceValue.textContent = `${priceText}10000`;
             ui.filterModal.querySelector('#filter-price').addEventListener('input', e => {
-                ui.filterModal.querySelector('#price-value').textContent = `Up to ₹${e.target.value}`;
+                priceValue.textContent = `${priceText}${e.target.value}`;
             });
+            // Apply current filters to modal inputs
+            const categoryEl = document.getElementById('filter-category');
+            const colorEl = document.getElementById('filter-color');
+            const priceEl = document.getElementById('filter-price');
+            const sortByEl = document.getElementById('sort-by');
+            if(categoryEl) categoryEl.value = document.getElementById('filter-category')?.value || 'all';
+            if(colorEl) colorEl.value = document.getElementById('filter-color')?.value || 'all';
+            if(priceEl) {
+                priceEl.value = document.getElementById('filter-price')?.value || '10000';
+                priceValue.textContent = `${priceText}${priceEl.value}`;
+            }
+            if(sortByEl) sortByEl.value = document.getElementById('sort-by')?.value || 'newest';
+            
+            translateUI(currentLang); // Translate the modal
         }
 
         function applyFiltersAndRender() {
@@ -425,17 +1038,54 @@
             const colorEl = document.getElementById('filter-color');
             const priceEl = document.getElementById('filter-price');
             const sortByEl = document.getElementById('sort-by');
+            const searchEl = document.getElementById('search-input'); 
+            
+            if (initialCategoryFilter) {
+                if (initialCategoryFilter !== 'all') {
+                    filteredProducts = filteredProducts.filter(p => p.category === initialCategoryFilter);
+                    if (categoryEl) {
+                        categoryEl.value = initialCategoryFilter;
+                    }
+                } else {
+                    if (categoryEl) {
+                        categoryEl.value = 'all';
+                    }
+                }
+                initialCategoryFilter = null; // Clear after use
+            } 
+            else {
+                if (categoryEl && categoryEl.value !== 'all') {
+                    filteredProducts = filteredProducts.filter(p => p.category === categoryEl.value);
+                }
+            }
 
-            if (categoryEl && categoryEl.value !== 'all') filteredProducts = filteredProducts.filter(p => p.category === categoryEl.value);
             if (colorEl && colorEl.value !== 'all') filteredProducts = filteredProducts.filter(p => p.color === colorEl.value);
             if (priceEl) filteredProducts = filteredProducts.filter(p => p.price <= Number(priceEl.value));
+            
+            if (searchEl && searchEl.value.trim() !== '') {
+                const searchTerm = searchEl.value.trim().toLowerCase();
+                filteredProducts = filteredProducts.filter(p => 
+                    p.title.toLowerCase().includes(searchTerm) ||
+                    p.desc.toLowerCase().includes(searchTerm) ||
+                    (p.tags && p.tags.some(tag => tag.toLowerCase().includes(searchTerm)))
+                );
+            }
 
             if (sortByEl) {
                 if (sortByEl.value === 'price-asc') filteredProducts.sort((a, b) => a.price - b.price);
                 else if (sortByEl.value === 'price-desc') filteredProducts.sort((a, b) => b.price - a.price);
-                else filteredProducts.sort((a, b) => b.createdAt?.seconds - a.createdAt?.seconds);
+                else filteredProducts.sort((a, b) => (b.createdAt && b.createdAt.seconds) - (a.createdAt && a.createdAt.seconds));
             }
             
+            const loadingEl = document.getElementById('marketplace-loading');
+            if (loadingEl) {
+                loadingEl.classList.add('hidden');
+            }
+
+            const gridContainer = document.getElementById('product-grid-container');
+            if(gridContainer) {
+                gridContainer.classList.remove('hidden');
+            }
             renderProductGrid(document.getElementById('product-grid'), filteredProducts);
             const noProductsMessage = document.getElementById('no-products-message');
             if(noProductsMessage) noProductsMessage.classList.toggle('hidden', filteredProducts.length > 0);
@@ -443,29 +1093,92 @@
         
         function renderProductGrid(gridElement, products) {
             if(!gridElement) return;
-            gridElement.innerHTML = products.map(p => { const soldOut = p.status === 'sold'; const isClickable = !soldOut || (currentUser && currentUser.role === 'seller'); const classes = `card product-card shadow-md overflow-hidden ${isClickable ? 'cursor-pointer hover:-translate-y-1 transition-transform' : ''} ${soldOut ? 'opacity-50' : ''}`; const dataId = isClickable ? `data-id="${p.id}"` : ''; return `<div class="${classes}" ${dataId}><div class="h-56 relative"><img class="w-full h-full object-cover" src="${p.images[0]}" alt="${p.title}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/31343C?text=Image+Not+Found';">${soldOut ? '<div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center"><span class="text-white font-bold text-lg">Sold Out</span></div>' : ''}</div><div class="p-4"><h3 class="font-bold truncate text-primary">${p.title}</h3><p class="text-xl font-bold text-theme mt-2">₹${p.price}</p></div></div>`; }).join('');
+            gridElement.innerHTML = products.map(p => { 
+                const soldOut = p.status === 'sold'; 
+                const isClickable = !soldOut || (currentUser && currentUser.role === 'seller'); 
+                const classes = `card product-card shadow-lg rounded-2xl overflow-hidden ${isClickable ? 'cursor-pointer hover:-translate-y-1 hover:shadow-2xl' : ''} ${soldOut ? 'opacity-50' : ''}`; 
+                const dataId = isClickable ? `data-id="${p.id}"` : ''; 
+                const inWishlist = currentUser?.wishlist?.includes(p.id);
+                const soldOutText = (translations[currentLang] && translations[currentLang]['product_sold_out']) || translations['en-US']['product_sold_out'];
+                return `<div class="${classes}" ${dataId}>
+                    <div class="h-56 relative">
+                        <img class="w-full h-full object-cover" src="${p.images[0]}" alt="${p.title}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/31343C?text=Image+Not+Found';">
+                        ${soldOut ? `<div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center"><span class="text-white font-bold text-lg">${soldOutText}</span></div>` : ''}
+                        ${!soldOut && currentUser && currentUser.role === 'buyer' ?
+                            `<button data-id="${p.id}" class="wishlist-btn toggle-wishlist-btn absolute top-3 right-3 bg-white/80 backdrop-blur-sm p-2 rounded-full text-xl text-theme hover:text-red-500 transition-colors">
+                                <i class="${inWishlist ? 'fas fa-heart text-red-500' : 'far fa-heart'}"></i>
+                            </button>` : ''
+                        }
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold truncate text-primary">${p.title}</h3>
+                        <p class="text-xl font-bold text-theme mt-2">₹${p.price}</p>
+                    </div>
+                </div>`; 
+            }).join('');
         }
 
-        function renderProductDetail(productId) {
+        async function renderProductDetail(productId) {
             const p = allProducts.find(prod => prod.id === productId);
             if (!p) return;
             const detailContainer = document.getElementById('product-detail-view');
             let actionButton = '';
+            
+            // Localize button text
+            const langMap = translations[currentLang] || translations['en-US'];
+            const translatingText = langMap['product_translating'] || translations['en-US']['product_translating'];
+            
             if (currentUser.role === 'buyer') {
-                actionButton = `<button data-id="${p.id}" class="add-to-cart-btn w-full mt-8 btn-primary font-bold py-3 text-lg rounded-lg">Add to Cart</button>`;
+                const addToCartText = langMap['product_add_to_cart'] || translations['en-US']['product_add_to_cart'];
+                actionButton = `<button data-id="${p.id}" class="add-to-cart-btn w-full mt-8 btn-primary font-bold py-3 text-lg rounded-lg" data-translate-key="product_add_to_cart">${addToCartText}</button>`;
             } else if (currentUser.role === 'seller' && currentUser.uid === p.artisan_id) {
                 const newStatus = p.status === 'available' ? 'sold' : 'available';
-                const buttonText = p.status === 'available' ? 'Mark as Sold' : 'Mark as Available';
-                actionButton = `<button data-id="${p.id}" data-new-status="${newStatus}" class="toggle-status-btn w-full mt-8 btn-secondary font-bold py-3 text-lg rounded-lg">${buttonText}</button>`;
+                // FIX: Fallback to English if translation is missing
+                const buttonText = p.status === 'available' 
+                    ? (langMap['product_mark_sold'] || translations['en-US']['product_mark_sold']) 
+                    : (langMap['product_mark_available'] || translations['en-US']['product_mark_available']);
+                const buttonKey = p.status === 'available' ? 'product_mark_sold' : 'product_mark_available';
+                actionButton = `<button data-id="${p.id}" data-new-status="${newStatus}" class="toggle-status-btn w-full mt-8 btn-secondary font-bold py-3 text-lg rounded-lg" data-translate-key="${buttonKey}">${buttonText}</button>`;
             }
-            detailContainer.innerHTML = `<div class="card p-8 rounded-2xl shadow-lg"><button id="back-to-grid" class="btn-secondary font-bold py-2 px-4 mb-6 rounded-lg"><i class="fas fa-arrow-left mr-2"></i>Back</button><div class="grid md:grid-cols-2 gap-8"><div><div class="mb-4"><img id="main-product-image" src="${p.images[0]}" class="w-full rounded-lg shadow-lg" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/31343C?text=Image+Not+Found';"></div><div id="thumbnail-images" class="grid grid-cols-4 gap-2">${(p.images || []).map((img, i) => `<img src="${img}" class="w-full rounded-md cursor-pointer border-2 ${i === 0 ? 'border-amber-700' : 'border-transparent'}" onerror="this.onerror=null;this.src='https://placehold.co/150x100/EEE/31343C?text=X';">`).join('')}</div></div><div><h2 class="text-4xl font-bold text-primary">${p.title}</h2><p class="text-4xl font-bold text-theme mt-6">₹${p.price}</p><p class="mt-6 text-secondary">${p.desc}</p>${actionButton}</div></div></div>`;
+            
+            const backText = (translations[currentLang] && translations[currentLang]['product_back']) || translations['en-US']['product_back'];
+            
+            // Show "Translating..." text initially if not English
+            const initialTitle = (currentLang !== 'en-US') ? translatingText : p.title;
+            const initialDesc = (currentLang !== 'en-US') ? translatingText : p.desc;
+            
+            detailContainer.innerHTML = `<div class="card p-8 rounded-2xl shadow-lg"><button id="back-to-grid" class="btn-secondary font-bold py-2 px-4 mb-6 rounded-lg"><i class="fas fa-arrow-left mr-2"></i>${backText}</button><div class="grid md:grid-cols-2 gap-8"><div><div class="mb-4"><img id="main-product-image" src="${p.images[0]}" class="w-full rounded-lg shadow-lg" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/31343C?text=Image+Not+Found';"></div><div id="thumbnail-images" class="grid grid-cols-4 gap-2">${(p.images || []).map((img, i) => `<img src="${img}" class="w-full rounded-md cursor-pointer border-2 ${i === 0 ? 'border-amber-700' : 'border-transparent'}" onerror="this.onerror=null;this.src='https://placehold.co/150x100/EEE/31343C?text=X';">`).join('')}</div></div><div>
+                <h2 class="text-4xl font-bold text-primary flex justify-between items-start">
+                    <span id="product-title-text">${initialTitle}</span>
+                    ${currentUser.role === 'buyer' ?
+                        `<button data-id="${p.id}" class="toggle-wishlist-btn text-3xl text-theme hover:text-red-500 transition-colors ml-4">
+                            <i class="${currentUser.wishlist?.includes(p.id) ? 'fas fa-heart text-red-500' : 'far fa-heart'}"></i>
+                        </button>` : ''
+                    }
+                </h2>
+                <p class="text-4xl font-bold text-theme mt-6">₹${p.price}</p>
+                <div class="mt-6">
+                    <p class="text-secondary" id="product-description-text">${initialDesc}</p>
+                </div>
+                ${actionButton}</div></div></div>`;
             document.getElementById('product-grid-container').classList.add('hidden');
             detailContainer.classList.remove('hidden');
             detailContainer.querySelector('#back-to-grid').addEventListener('click', () => { detailContainer.classList.add('hidden'); document.getElementById('product-grid-container').classList.remove('hidden'); });
+            
             const cartBtn = detailContainer.querySelector('.add-to-cart-btn');
             if(cartBtn) cartBtn.addEventListener('click', (e) => addToCart(e.target.dataset.id));
+            
             const statusBtn = detailContainer.querySelector('.toggle-status-btn');
             if(statusBtn) statusBtn.addEventListener('click', (e) => toggleProductStatus(e.target.dataset.id, e.target.dataset.newStatus));
+            
+            const wishlistBtn = detailContainer.querySelector('.toggle-wishlist-btn');
+            if(wishlistBtn) wishlistBtn.addEventListener('click', (e) => toggleWishlist(e.currentTarget.dataset.id));
+            
+            // NEW: Automatically translate if language is not English
+            if (currentLang !== 'en-US') {
+                translateProductDetails(p.title, p.desc, currentLang);
+            }
+            
             const thumbnails = detailContainer.querySelectorAll('#thumbnail-images img');
             thumbnails.forEach((thumb, index) => thumb.addEventListener('click', () => {
                 document.getElementById('main-product-image').src = p.images[index];
@@ -474,26 +1187,123 @@
             }));
         }
         
+        async function translateProductDetails(title, desc, targetLang) {
+            const titleEl = document.getElementById('product-title-text');
+            const descEl = document.getElementById('product-description-text');
+            
+            const titleCacheKey = `title_${title.slice(0, 20)}_${targetLang}`;
+            const descCacheKey = `desc_${desc.slice(0, 20)}_${targetLang}`;
+
+            // Check cache first
+            if (productTranslationsCache[titleCacheKey] && productTranslationsCache[descCacheKey]) {
+                if(titleEl) titleEl.textContent = productTranslationsCache[titleCacheKey];
+                if(descEl) descEl.textContent = productTranslationsCache[descCacheKey];
+                return;
+            }
+
+            // FIX: Removed the incorrect API key check
+            if (!GEMINI_API_KEY) {
+                showNotification("Gemini API key is not set. Please add your key to index.html.", "error");
+                if(titleEl) titleEl.textContent = title; // Revert to original on error
+                if(descEl) descEl.textContent = desc;
+                return;
+            }
+            
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+            
+            // Create a schema for a structured JSON response
+            const responseSchema = {
+                type: "OBJECT",
+                properties: {
+                    "translated_title": { "type": "STRING" },
+                    "translated_description": { "type": "STRING" }
+                },
+                required: ["translated_title", "translated_description"]
+            };
+
+            const payload = {
+                contents: [{
+                    parts: [{ text: `Translate the following product details to ${targetLang}. 
+                                    Original Title: "${title}"
+                                    Original Description: "${desc}"` }]
+                }],
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: responseSchema
+                }
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) throw new Error('API request failed');
+                
+                const result = await response.json();
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (!text) throw new Error('No text returned from model.');
+
+                const data = JSON.parse(text);
+                
+                if (data.translated_title && data.translated_description) {
+                    if(titleEl) titleEl.textContent = data.translated_title;
+                    if(descEl) descEl.textContent = data.translated_description;
+                    // Save to cache
+                    productTranslationsCache[titleCacheKey] = data.translated_title;
+                    productTranslationsCache[descCacheKey] = data.translated_description;
+                } else {
+                    throw new Error('Invalid JSON structure in response.');
+                }
+            } catch (error) {
+                console.error("Translation Error:", error);
+                showNotification("Could not translate product details.", "error");
+                if(titleEl) titleEl.textContent = title; // Revert to original on error
+                if(descEl) descEl.textContent = desc;
+            }
+        }
+
+
         async function toggleProductStatus(productId, newStatus) {
             const productRef = doc(db, "products", productId);
             await updateDoc(productRef, { status: newStatus });
             showNotification(`Product status updated to ${newStatus}.`);
-            renderProductDetail(productId);
+            renderProductDetail(productId); // Re-renders the detail view
         }
         
         async function toggleWishlist(productId) {
+            if (!currentUser) return;
             const userRef = doc(db, "users", currentUser.uid);
-            if (currentUser.wishlist?.includes(productId)) {
-                await updateDoc(userRef, { wishlist: arrayRemove(productId) });
-            } else {
-                await updateDoc(userRef, { wishlist: arrayUnion(productId) });
+            const isWishlisted = currentUser.wishlist && currentUser.wishlist.includes(productId);
+
+            try {
+                if (isWishlisted) {
+                    await updateDoc(userRef, { wishlist: arrayRemove(productId) });
+                } else {
+                    await updateDoc(userRef, { wishlist: arrayUnion(productId) });
+                }
+                const userDoc = await getDoc(userRef);
+                currentUser.wishlist = userDoc.data().wishlist;
+
+                const activeEl = document.querySelector('.view-section.active');
+                const activeView = activeEl ? activeEl.id : null;
+                
+                if (activeView === 'marketplace-view') {
+                    if (document.getElementById('product-detail-view').classList.contains('hidden')) {
+                        applyFiltersAndRender(); // Re-renders product grid
+                    } else {
+                        renderProductDetail(productId); // Re-renders detail view
+                    }
+                } else if (activeView === 'home-view') {
+                    renderHome(); // Re-renders featured grid
+                } else if (activeView === 'dashboard-view') {
+                    renderWishlist(); // Re-renders wishlist on dashboard
+                }
+            } catch (error) {
+                console.error("Error toggling wishlist:", error);
+                showNotification("Could not update wishlist.", "error");
             }
-            const userDoc = await getDoc(userRef);
-            currentUser.wishlist = userDoc.data().wishlist;
-            
-            const heartIcons = document.querySelectorAll(`.wishlist-btn[data-id="${productId}"] i`);
-            heartIcons.forEach(icon => icon.classList.toggle('fas', currentUser.wishlist.includes(productId)));
-            heartIcons.forEach(icon => icon.classList.toggle('far', !currentUser.wishlist.includes(productId)));
         }
 
         function addToCart(productId) {
@@ -508,9 +1318,22 @@
         function updateCartCount() { ui.cartCount.textContent = cart.length; }
         function renderCart() {
             const container = document.getElementById('cart-view');
-            if (cart.length === 0) { container.innerHTML = `<div class="text-center card p-12 rounded-lg shadow"><h2 class="text-2xl font-bold text-primary">Your Cart is Empty</h2></div>`; return; }
+            const langMap = translations[currentLang] || translations['en-US'];
+
+            if (cart.length === 0) { 
+                container.innerHTML = `<div class="text-center card p-12 rounded-lg shadow"><h2 class="text-2xl font-bold text-primary" data-translate-key="cart_empty">${langMap['cart_empty']}</h2></div>`; 
+                return; 
+            }
+            
             const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
-            container.innerHTML = `<div class="card p-8 rounded-lg shadow"><h2 class="text-3xl font-bold mb-6 text-primary">My Cart</h2><div class="divide-y border-color">${cart.map(p => `<div class="py-4 flex justify-between items-center"><div><p class="font-semibold text-primary">${p.title}</p><p class="text-sm text-secondary">₹${p.price}</p></div><button data-id="${p.id}" class="remove-from-cart-btn text-red-500 hover:text-red-700 font-bold text-2xl">&times;</button></div>`).join('')}</div><div class="mt-6 pt-6 border-t border-color"><p class="text-2xl font-bold text-right text-primary">Total: ₹${totalPrice}</p><button id="checkout-btn" class="w-full mt-4 btn-primary font-bold py-3 text-lg rounded-lg">Place Order</button></div></div>`;
+            const titleKey = 'cart_title';
+            const totalKey = 'cart_total';
+            const checkoutKey = 'cart_checkout';
+            const titleText = (translations[currentLang] && translations[currentLang][titleKey]) || translations['en-US'][titleKey];
+            const totalText = (translations[currentLang] && translations[currentLang][totalKey]) || translations['en-US'][totalKey];
+            const checkoutText = (translations[currentLang] && translations[currentLang][checkoutKey]) || translations['en-US'][checkoutKey];
+
+            container.innerHTML = `<div class="card p-8 rounded-lg shadow"><h2 class="text-3xl font-bold mb-6 text-primary" data-translate-key="${titleKey}">${titleText}</h2><div class="divide-y border-color">${cart.map(p => `<div class="py-4 flex justify-between items-center"><div><p class="font-semibold text-primary">${p.title}</p><p class="text-sm text-secondary">₹${p.price}</p></div><button data-id="${p.id}" class="remove-from-cart-btn text-red-500 hover:text-red-700 font-bold text-2xl">&times;</button></div>`).join('')}</div><div class="mt-6 pt-6 border-t border-color"><p class="text-2xl font-bold text-right text-primary"><span data-translate-key="${totalKey}">${totalText}</span>: ₹${totalPrice}</p><button id="checkout-btn" class="w-full mt-4 btn-primary font-bold py-3 text-lg rounded-lg" data-translate-key="${checkoutKey}">${checkoutText}</button></div></div>`;
             document.getElementById('checkout-btn').addEventListener('click', placeOrder);
             container.querySelectorAll('.remove-from-cart-btn').forEach(btn => btn.addEventListener('click', e => { cart = cart.filter(item => item.id !== e.target.dataset.id); updateCartCount(); renderCart(); }));
         }
@@ -527,26 +1350,185 @@
         }
         
         function renderSupport() {
-            document.getElementById('support-view').innerHTML = `<div class="card p-8 rounded-lg shadow"><h2 class="text-3xl font-bold text-primary">Help & Support</h2><p class="mt-4 text-secondary">For any queries, please contact us at <a href="mailto:support@kalasaarthi.com" class="text-theme">support@kalasaarthi.com</a></p><p class="mt-2 text-secondary">Our customer service feature is coming soon!</p></div>`;
+            document.getElementById('support-view').innerHTML = `<div class="card p-8 rounded-lg shadow">
+                <h2 class="text-3xl font-bold text-primary" data-translate-key="support_title">Help & Support</h2>
+                <p class="mt-4 text-secondary"><span data-translate-key="support_text">For any queries, please contact us at</span> <a href="mailto:support@kalasaarthi.com" class="text-theme">support@kalasaarthi.com</a></p>
+                <p class="mt-2 text-secondary" data-translate-key="support_coming_soon">Our customer service feature is coming soon!</p>
+            </div>`;
         }
 
         function renderCreateProductView() {
+            // MODIFIED: Build options from global constants
+            const categoryOptions = CATEGORIES.map(cat => {
+                const translatedName = (translations[currentLang] && translations[currentLang][cat.key]) || translations['en-US'][cat.key] || cat.id;
+                return `<option value="${cat.id}">${translatedName}</option>`
+            }).join('');
+
+            const colorOptions = COLORS.slice(1).map(col => { // slice(1) to skip "all"
+                const translatedName = (translations[currentLang] && translations[currentLang][col.key]) || translations['en-US'][col.key] || col.id;
+                return `<option value="${col.id}">${translatedName}</option>`
+            }).join('');
+
+
             const container = document.getElementById('create-product-view');
-            container.innerHTML = `<div class="max-w-5xl mx-auto card p-8 rounded-2xl shadow-lg"><button id="back-to-dashboard-btn" class="btn-secondary font-bold py-2 px-4 rounded-lg mb-6"><i class="fas fa-arrow-left mr-2"></i>Back</button><div class="flex items-center justify-center mb-8"><div id="step-1-indicator" class="step-indicator">1</div><div class="flex-auto border-t-2 mx-4 border-color"></div><div id="step-2-indicator" class="step-indicator">2</div><div class="flex-auto border-t-2 mx-4 border-color"></div><div id="step-3-indicator" class="step-indicator">3</div></div><section id="step-1" class="form-section"><h2 class="text-2xl font-bold text-primary">Step 1: Upload Photos</h2><input type="file" id="photo-upload" multiple class="mt-6"/><div id="upload-error" class="hidden text-red-600 text-sm mt-2"></div><div id="image-previews" class="mt-6 grid grid-cols-3 gap-4"></div><div class="mt-8 text-right"><button id="next-to-step-2" class="btn-primary font-bold py-2 px-6" disabled>Next</button></div></section><section id="step-2" class="form-section"><h2 class="text-2xl font-bold text-primary">Step 2: Add Details & Story</h2><div class="grid md:grid-cols-2 gap-6 mt-6"><div><label class="font-semibold text-sm">Category</label><select id="product-category" class="w-full mt-1 p-2 border rounded bg-transparent border-color"><option>Saree</option><option>Jewelry</option><option>Painting</option><option>Pottery</option><option>Other</option></select></div><div><label class="font-semibold text-sm">Primary Color</label><select id="product-color" class="w-full mt-1 p-2 border rounded bg-transparent border-color"><option>Red</option><option>Blue</option><option>Green</option><option>Gold</option><option>Silver</option><option>Black</option><option>White</option><option>Multicolor</option></select></div></div><textarea id="story-input" rows="5" class="w-full p-3 border mt-6 bg-transparent border-color" placeholder="Share your story..."></textarea><div class="mt-8 flex justify-between"><button id="back-to-step-1" class="btn-secondary font-bold py-2 px-6">Back</button><button id="generate-listing-btn" class="btn-primary font-bold py-2 px-6" disabled>Generate</button></div></section><section id="step-3" class="form-section"><div id="ai-text-generation" class="flex flex-col items-center p-8"><div class="spinner animate-spin"></div><p class="mt-2 text-secondary">Generating content...</p></div><div id="listing-review" class="hidden"><h2 class="text-2xl font-bold text-primary">Step 3: Review & Publish</h2><div class="space-y-4 mt-6"><input type="text" id="product-title" placeholder="Title" class="w-full p-2 border rounded bg-transparent border-color"><textarea id="product-desc" rows="4" placeholder="Description" class="w-full p-2 border rounded bg-transparent border-color"></textarea><input type="text" id="product-tags" placeholder="Tags (comma-separated)" class="w-full p-2 border rounded bg-transparent border-color"><input type="number" id="product-price" placeholder="Price (INR)" class="w-full p-2 border rounded bg-transparent border-color"></div><div class="mt-8 flex justify-between"><button id="back-to-step-2" class="btn-secondary font-bold py-2 px-6">Back</button><button id="publish-btn" class="btn-primary font-bold py-2 px-6 flex items-center justify-center">Publish</button></div></div></section><div id="success-message" class="hidden text-center py-10"><i class="fas fa-check-circle text-6xl text-green-500"></i><h2 class="text-3xl mt-4 text-primary">Published!</h2><p class="mt-4 text-secondary">ID: <span id="doc-id"></span></p><button id="create-another-btn" class="mt-6 btn-primary font-bold py-2 px-6">Create Another</button></div></div>`;
+            container.innerHTML = `<div class="max-w-5xl mx-auto card p-8 rounded-2xl shadow-lg"><button id="back-to-dashboard-btn" class="btn-secondary font-bold py-2 px-4 rounded-lg mb-6"><i class="fas fa-arrow-left mr-2"></i><span data-translate-key="create_btn_back">Back</span></button><div class="flex items-center justify-center mb-8"><div id="step-1-indicator" class="step-indicator">1</div><div class="flex-auto border-t-2 mx-4 border-color"></div><div id="step-2-indicator" class="step-indicator">2</div><div class="flex-auto border-t-2 mx-4 border-color"></div><div id="step-3-indicator" class="step-indicator">3</div></div>
+            <section id="step-1" class="form-section">
+                <h2 class="text-2xl font-bold text-primary" data-translate-key="create_step1">Step 1: Upload Photo</h2>
+                <label id="drop-zone" for="photo-upload" class="mt-6 cursor-pointer bg-white dark:bg-stone-800 border-2 border-dashed border-color rounded-lg p-12 text-center text-secondary hover:bg-stone-50 dark:hover:bg-stone-700 block transition">
+                    <i class="fas fa-cloud-upload-alt text-4xl text-theme"></i>
+                    <p class="mt-2 font-semibold" data-translate-key="create_step1_prompt">Click to upload an image or drag and drop</p>
+                    <p class="text-sm" data-translate-key="create_step1_size">Max 500KB</p>
+                </label>
+                <div class="flex items-center justify-center my-4">
+                    <span class="text-secondary text-sm font-semibold" data-translate-key="create_step1_or">OR</span>
+                </div>
+                <button id="open-camera-btn" class="w-full btn-secondary font-bold py-3 rounded-lg flex items-center justify-center"><i class="fas fa-camera mr-2"></i> <span data-translate-key="create_step1_camera">Use Camera</span></button>
+                <input type="file" id="photo-upload" class="hidden" accept="image/*"/>
+                <div id="upload-error" class="hidden text-red-600 text-sm mt-2"></div>
+                <div id="image-previews" class="mt-6 grid grid-cols-3 sm:grid-cols-5 gap-4"></div>
+                <div class="mt-8 text-right"><button id="next-to-step-2" class="btn-primary font-bold py-2 px-6 rounded-lg" data-translate-key="create_btn_next" disabled>Next</button></div>
+            </section>
+            
+            <section id="step-2" class="form-section">
+                <h2 class="text-2xl font-bold text-primary" data-translate-key="create_step2">Step 2: Add Details & Story</h2>
+                <div class="grid md:grid-cols-2 gap-6 mt-6">
+                    <div><label class="font-semibold text-sm" data-translate-key="filter_category">Category</label><select id="product-category" class="w-full mt-1 p-2 border rounded bg-transparent border-color">${categoryOptions}</select></div>
+                    <div><label class="font-semibold text-sm" data-translate-key="filter_color">Primary Color</label><select id="product-color" class="w-full mt-1 p-2 border rounded bg-transparent border-color">${colorOptions}</select></div>
+                </div>
+                <textarea id="story-input" rows="5" class="w-full p-3 border mt-6 bg-transparent border-color rounded-lg" data-translate-key="create_step2_story" placeholder="Share your story..."></textarea>
+                <button id="record-story-btn" class="btn-secondary font-bold py-2 px-4 rounded-lg mt-2 flex items-center"><i class="fas fa-microphone-alt mr-2"></i> <span data-translate-key="create_btn_record_story">Record Story</span></button>
+                <div class="mt-8 flex justify-between"><button id="back-to-step-1" class="btn-secondary font-bold py-2 px-6 rounded-lg" data-translate-key="create_btn_back">Back</button><button id="generate-listing-btn" class="btn-primary font-bold py-2 px-6 rounded-lg" data-translate-key="create_btn_generate" disabled>Generate</button></div>
+            </section>
+            
+            <section id="step-3" class="form-section">
+                <div id="ai-text-generation" class="flex flex-col items-center p-8"><div class="spinner animate-spin"></div><p class="mt-2 text-secondary" data-translate-key="create_step3_generating">Generating content...</p></div>
+                <div id="listing-review" class="hidden">
+                    <h2 class="text-2xl font-bold text-primary" data-translate-key="create_step3">Step 3: Review & Publish</h2>
+                    <div class="space-y-4 mt-6">
+                        <input type="text" id="product-title" data-translate-key="create_title" placeholder="Title" class="w-full p-2 border rounded bg-transparent border-color">
+                        <textarea id="product-desc" rows="4" data-translate-key="create_desc" placeholder="Description" class="w-full p-2 border rounded bg-transparent border-color"></textarea>
+                        <input type="text" id="product-tags" data-translate-key="create_tags" placeholder="Tags (comma-separated)" class="w-full p-2 border rounded bg-transparent border-color">
+                        <input type="number" id="product-price" data-translate-key="create_price" placeholder="Price (INR)" class="w-full p-2 border rounded bg-transparent border-color">
+                    </div>
+                    <div class="mt-8 flex justify-between"><button id="back-to-step-2" class="btn-secondary font-bold py-2 px-6 rounded-lg" data-translate-key="create_btn_back">Back</button><button id="publish-btn" class="btn-primary font-bold py-2 px-6 flex items-center justify-center rounded-lg" data-translate-key="create_btn_publish">Publish</button></div>
+                </div>
+            </section>
+            <div id="success-message" class="hidden text-center py-10"><i class="fas fa-check-circle text-6xl text-green-500"></i><h2 class="text-3xl mt-4 text-primary" data-translate-key="create_success_title">Published!</h2><p class="mt-4 text-secondary">ID: <span id="doc-id"></span></p><button id="create-another-btn" class="mt-6 btn-primary font-bold py-2 px-6 rounded-lg" data-translate-key="create_success_another">Create Another</button></div></div>`;
             
             document.getElementById('back-to-dashboard-btn').addEventListener('click', () => setActiveView('dashboard-view'));
-            document.getElementById('photo-upload').addEventListener('change', handlePhotoUpload);
+            
+            // Step 1 Listeners
+            document.getElementById('photo-upload').addEventListener('change', (e) => handlePhotoUpload(e.target.files));
+            document.getElementById('open-camera-btn').addEventListener('click', openCameraModal);
             document.getElementById('next-to-step-2').addEventListener('click', () => goToStep(2));
+            setupDragAndDrop();
+
+            // Step 2 Listeners
             document.getElementById('back-to-step-1').addEventListener('click', () => goToStep(1));
-            document.getElementById('back-to-step-2').addEventListener('click', () => goToStep(2));
             document.getElementById('story-input').addEventListener('input', e => { document.getElementById('generate-listing-btn').disabled = e.target.value.trim().length < 10; });
+            document.getElementById('record-story-btn').addEventListener('click', (e) => {
+                const langMap = translations[currentLang] || translations['en-US'];
+                // Check against the translated 'Stop' text
+                const stopText = langMap['create_btn_stop_record'] || translations['en-US']['create_btn_stop_record'];
+                if (storyRecognition && e.currentTarget.innerText.includes(stopText)) {
+                    stopStoryRecording();
+                } else {
+                    startStoryRecording();
+                }
+            });
             document.getElementById('generate-listing-btn').addEventListener('click', () => { goToStep(3); generateContentWithGemini(document.getElementById('story-input').value); });
+            
+            // Step 3 Listeners
+            document.getElementById('back-to-step-2').addEventListener('click', () => goToStep(2));
             document.getElementById('publish-btn').addEventListener('click', publishProduct);
+            
+            // Success Listener
             document.getElementById('create-another-btn').addEventListener('click', resetFlow);
             
             resetFlow();
             showView('create-product-view');
         }
+
+        // ====================================================================================
+        // NEW: Drag and Drop & Camera Functions
+        // ====================================================================================
+        function setupDragAndDrop() {
+            const dropZone = document.getElementById('drop-zone');
+            if (!dropZone) return;
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, false);
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, () => dropZone.classList.add('drag-over'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, () => dropZone.classList.remove('drag-over'), false);
+            });
+
+            dropZone.addEventListener('drop', (e) => handlePhotoUpload(e.dataTransfer.files), false);
+        }
+
+        function openCameraModal() {
+            const cameraModal = document.getElementById('camera-modal');
+            const video = document.getElementById('camera-feed');
+            if (!cameraModal || !video) return;
+
+            cameraModal.classList.remove('hidden');
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+                .then(stream => {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(err => {
+                    console.error("Camera Error:", err);
+                    showNotification("Could not access camera.", "error");
+                    cameraModal.classList.add('hidden');
+                });
+            
+            document.getElementById('cancel-camera-btn').onclick = stopCamera;
+            document.getElementById('take-photo-btn').onclick = takePhoto;
+        }
+
+        function stopCamera() {
+            const video = document.getElementById('camera-feed');
+            if (video.srcObject) {
+                video.srcObject.getTracks().forEach(track => track.stop());
+            }
+            document.getElementById('camera-modal').classList.add('hidden');
+        }
+
+        function takePhoto() {
+            const video = document.getElementById('camera-feed');
+            const canvas = document.getElementById('camera-canvas');
+            const context = canvas.getContext('2d');
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            // Flip the context to match the mirrored video feed
+            context.translate(canvas.width, 0);
+            context.scale(-1, 1);
+            
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            stopCamera();
+
+            canvas.toBlob(blob => {
+                if (blob.size > 500 * 1024) {
+                    showNotification("Captured image is too large (Max 500KB). Please try again.", "error");
+                    return;
+                }
+                const file = new File([blob], "camera-shot.jpg", { type: "image/jpeg" });
+                handlePhotoUpload([file]); // Pass as an array
+            }, 'image/jpeg', 0.9);
+        }
+        // ====================================================================================
+
 
         function goToStep(step) {
             document.querySelectorAll('#create-product-view .form-section').forEach(el=>el.classList.remove('active'));
@@ -571,7 +1553,7 @@
             }
         }
 
-        function handlePhotoUpload(e) {
+        function handlePhotoUpload(files) {
             const previews = document.getElementById('image-previews');
             const errorDiv = document.getElementById('upload-error');
             const nextBtn = document.getElementById('next-to-step-2');
@@ -582,75 +1564,113 @@
             nextBtn.disabled = true;
             uploadedImageUrls = [];
             
-            const files = Array.from(e.target.files);
             if (files.length === 0) return;
-            const oversizedFiles = files.filter(file => file.size > MAX_SIZE_BYTES);
-            if (oversizedFiles.length > 0) {
+            
+            // We only process the *first* file
+            const file = files[0]; 
+
+            if (file.size > MAX_SIZE_BYTES) {
                 if(errorDiv) {
-                    errorDiv.textContent = `Error: The file "${oversizedFiles[0].name}" is too large. Please keep images under 500KB.`;
+                    errorDiv.textContent = `Error: The file "${file.name}" is too large. Please keep images under 500KB.`;
                     errorDiv.classList.remove('hidden');
                 }
                 return;
             }
-            files.forEach(file => {
-                const reader = new FileReader();
-                reader.onload = evt => {
-                    uploadedImageUrls.push(evt.target.result);
-                    previews.innerHTML += `<img src="${evt.target.result}" class="w-full h-32 object-cover rounded-lg">`;
-                };
-                reader.readAsDataURL(file);
-            });
-            nextBtn.disabled = false;
+
+            const reader = new FileReader();
+            reader.onload = evt => {
+                uploadedImageUrls.push(evt.target.result);
+                previews.innerHTML += `<img src="${evt.target.result}" class="w-full h-32 object-cover rounded-lg shadow-sm">`;
+                nextBtn.disabled = false;
+            };
+            reader.readAsDataURL(file);
         }
         
         async function generateContentWithGemini(story) {
             document.getElementById('ai-text-generation').style.display = 'flex';
             document.getElementById('listing-review').classList.add('hidden');
 
-            if (GEMINI_API_KEY === "YOUR_GEMINI_API_KEY_HERE") {
-                showNotification("Gemini API key is not set. Please add it to the script.", "error");
+            // FIX: Removed the incorrect API key check
+            if (!GEMINI_API_KEY) {
+                showNotification("Gemini API key is not set. Please add your key to index.html.", "error");
                 document.getElementById('ai-text-generation').style.display = 'none';
                 document.getElementById('listing-review').classList.remove('hidden');
                 return;
             }
             
-            const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
             
-            const systemPrompt = "You are an expert e-commerce copywriter for Indian handicrafts. Based on the artisan's story, generate a JSON object with: a 'title' (max 60 chars), a 'description' (2 rich paragraphs), 'tags' (an array of 5 relevant strings), and a suggested 'price' (integer). Output only the raw JSON.";
+            const systemPrompt = "You are an expert e-commerce copywriter for Indian handicrafts. Based on the artisan's story, generate a title, description, tags, and a suggested price.";
             const userQuery = `My product story is: "${story}"`;
+            
+            const responseSchema = {
+                type: "OBJECT",
+                properties: {
+                    "title": { "type": "STRING", "description": "A compelling, short title (max 60 chars)." },
+                    "description": { "type": "STRING", "description": "A rich, 2-paragraph description." },
+                    "tags": { "type": "ARRAY", "items": { "type": "STRING" }, "description": "An array of 5 relevant string tags." },
+                    "price": { "type": "INTEGER", "description": "A suggested price as an integer." }
+                },
+                required: ["title", "description", "tags", "price"]
+            };
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: responseSchema
+                }
+            };
 
             try {
-                const payload = {
-                    contents: [{ parts: [{ text: userQuery }] }],
-                    systemInstruction: { parts: [{ text: systemPrompt }] },
-                    generationConfig: {
-                        responseMimeType: "application/json"
-                    }
-                };
-
-                const response = await fetch(GEMINI_API_URL, {
+                const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(`API Error: ${response.status} - ${errorData.error.message}`);
+                    const errorData = await response.json().catch(() => ({}));
+                    let errorMsg = errorData.error?.message || 'Unknown error';
+                    if (errorData.error?.status === 'PERMISSION_DENIED') {
+                        errorMsg = "API Key is invalid or has quota issues. Check your Gemini API settings.";
+                    }
+                    throw new Error(`Gemini API Error: ${response.status} - ${errorMsg}`);
+                }
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+                const text = candidate?.content?.parts?.[0]?.text;
+
+                if (!text) {
+                    throw new Error('No text returned from model.');
                 }
                 
-                const result = await response.json();
-                const text = result.candidates[0].content.parts[0].text;
-                const data = JSON.parse(text);
+                let data;
+                try { 
+                    data = JSON.parse(text); 
+                } catch (e) {
+                    throw new Error('Model output is not valid JSON.');
+                }
 
-                document.getElementById('product-title').value = data.title;
-                document.getElementById('product-desc').value = data.description;
-                document.getElementById('product-tags').value = data.tags.join(', ');
-                document.getElementById('product-price').value = data.price;
+                document.getElementById('product-title').value = data.title || '';
+                document.getElementById('product-desc').value = data.description || '';
+                document.getElementById('product-tags').value = (data.tags || []).join(', ');
+                document.getElementById('product-price').value = data.price || '';
 
             } catch (error) {
                 console.error("Gemini API Error:", error);
-                showNotification("Could not generate content. Please try a different story.", "error");
+                let errorMessage = "Could not generate content. Please try a different story.";
+                
+                if (error.message.includes("Gemini API Error:")) {
+                    errorMessage = error.message.split(' - ')[1] || "An unknown API error occurred.";
+                } else if (error.message.includes("Model output is not valid JSON")) {
+                    errorMessage = "AI response was not valid. Please try again.";
+                }
+                showNotification(errorMessage, "error");
             } finally {
                 document.getElementById('ai-text-generation').style.display = 'none';
                 document.getElementById('listing-review').classList.remove('hidden');
@@ -659,7 +1679,8 @@
         
         async function publishProduct() {
             const publishBtn = document.getElementById('publish-btn');
-            setLoading(publishBtn, true, 'Publish');
+            const publishText = (translations[currentLang] && translations[currentLang]['create_btn_publish']) || translations['en-US']['create_btn_publish'];
+            setLoading(publishBtn, true, publishText);
             
             const productTitle = document.getElementById('product-title').value;
             const product = { 
@@ -687,10 +1708,9 @@
                 console.error("Error publishing product:", error);
                 showNotification("An unexpected error occurred while publishing.", "error");
             } finally {
-                setLoading(publishBtn, false, 'Publish');
+                setLoading(publishBtn, false, publishText);
             }
         }
     </script>
 </body>
 </html>
-
