@@ -1,120 +1,115 @@
-# KalaSaarthi - An AI-Powered Artisan Marketplace
-KalaSaarthi is a modern, responsive e-commerce platform designed to connect local Indian artisans directly with buyers. The platform empowers sellers by using the Google Gemini API to automatically generate compelling product titles, descriptions, and tags, simplifying the process of listing handmade goods.
+# KalaSaarthi: The AI-Powered Artisan Marketplace
 
+KalaSaarthi is an AI-powered web application designed to help traditional artisans sell their products online, with features for multi-language AI content generation and complete e-commerce functionality.
 
-A preview of the KalaSaarthi marketplace interface.
+## The Problem
+
+Traditional Indian artisans, while masters of their craft, are often locked out of the digital economy. They face significant barriers like a lack of digital marketing skills, difficulty in writing compelling product listings (especially in English), and the complexity of managing an online store. This "digital divide" limits their livelihood and risks their cultural heritage being lost.
+
+## Our Solution
+
+KalaSaarthi (meaning "Art's Charioteer") is a single-page web application that acts as an AI partner for these artisans. It simplifies the process of selling online into three simple steps: upload a photo, write a story (in their native language), and let the AI handle the rest.
+
+The app generate professional, market-ready product titles, descriptions, and tags in the language of their choice (English, Hindi, or Tamil), completely removing the marketing and language barrier.
 
 ## Key Features
 
-### For Buyers:
-Intuitive Marketplace: Browse a beautiful grid of unique, handmade products.
+Dual User Roles: Separate, secure dashboards for "Buyers" and "Sellers".
 
-Advanced Filtering & Sorting: Easily find items by category, color, price range, and newest arrivals.
+AI Content Generation: Integrated Google Gemini API (gemini-2.5-flash-preview-09-2025) to generate product listings from a simple story.
 
-Voice Search: Search for products using voice commands for a hands-free experience.
+Multilingual Support: Full UI translation and AI generation in English, हिन्दी (Hindi), and தமிழ் (Tamil).
 
-Detailed Product View: View multiple product images, read detailed descriptions, and see pricing.
+Complete E-commerce Flow: Full marketplace, product filtering (by category, price, etc.), shopping cart, and order history.
 
-Shopping Cart: Add and remove items from your cart before checkout.
+Seller Dashboard: Easy-to-use-portal for artisans to manage products (Create, Read, Delete) and view sales analytics.
 
-Secure Checkout: Place orders and have them recorded in your dashboard.
+Modern Uploads: Supports drag-and-drop, file upload, and direct-from-camera photo capture.
 
-User Dashboard: View past orders, manage your shipping address, and see your wishlist.
+Real-time Database: Built on Firebase Firestore for instant inventory updates (e.g., "Available" / "Sold").
 
-Dark & Light Mode: Switch between themes for comfortable viewing.
+Accessibility: Features like voice search, keyboard navigation, and a responsive light/dark theme.
 
-### For Artisans (Sellers):
-AI-Powered Listing Creation: A simple, three-step process to list a new product:
+## Tech Stack
 
-Upload Photos: Add images of your craft.
+Frontend: HTML5, Tailwind CSS, Vanilla JavaScript (ES6 Modules)
 
-Share Your Story: Write a brief story or description of your product and its inspiration.
+Backend: Firebase (Firestore Database, Firebase Authentication)
 
-AI Generation & Review: The Google Gemini API automatically generates a professional title, a detailed e-commerce description, relevant tags, and a suggested price based on your story. You can review and edit before publishing.
+Generative AI: Google Gemini API
 
-Seller Dashboard: Get an overview of your listed products and their status (available/sold).
+Libraries: Chart.js (for seller analytics)
 
-Product Management: Mark items as "sold," "available," or delete listings entirely.
+## How to Run Locally
 
-Sales Analytics: (Future Scope) A dashboard to visualize sales data and performance.
+This project is a single, self-contained HTML file. You can run it directly in your browser after setting up the necessary backend services.
 
-## Technology Stack
-Frontend: HTML5, CSS3, Vanilla JavaScript (ES6 Modules)
+* Firebase Setup
 
-Styling: Tailwind CSS for a utility-first design system.
+  Go to the Firebase Console and create a new project.
 
-Backend & Database: Firebase
+  Enable Authentication:
 
-Authentication: User sign-up and sign-in (Email/Password).
+  Go to Authentication -> Sign-in method.
 
-Firestore: NoSQL database for storing user, product, and order data in real-time.
+  Enable Email/Password.
 
-Hosting: Deployed live on the web with Firebase Hosting.
+  Enable Anonymous. (This is crucial for the app to work locally without a custom token).
 
-Generative AI: Google Gemini API for automated product content generation.
+  Enable Firestore:
 
-## Getting Started
-Follow these instructions to get a local copy up and running for development and testing purposes.
+  Go to Firestore Database and create a database.
 
-Prerequisites
-A Google account to create a Firebase project.
+  Start in Test Mode. The app's database paths (artifacts/...) are designed for a specific environment. For local testing, you will need to either:
 
-Node.js installed on your machine (for the Firebase CLI).
+  Option A (Recommended): Update your Firestore Security Rules to allow reads/writes for authenticated users.
 
-Installation & Setup
-Clone the repository:
+  Option B (Quickest): Manually edit the Firestore paths in KalaSaarthi_Marketplace.html to remove the /artifacts/appId/ prefixes (e.g., change                      doc(db,"artifacts", appId, "users", ...) to doc(db, "users", ...)).
 
-git clone [https://github.com/GUGHAN-3001/kalasaarthi.git](https://github.com/GUGHAN-3001/kalasaarthi.git)
-cd kalasaarthi
+  Get Config:
 
-Set up Firebase:
+  In your project settings, find your Web App configuration object.
 
-Go to the Firebase Console and create a new project.
+* Google Gemini API Setup
 
-In your new project, go to Project Settings > General.
+  Go to Google AI Studio and create a new API key.
 
-Under "Your apps," click the Web icon (</>) to register a new web app.
+  Make sure the key is enabled for the "Gemini API".
 
-Copy the firebaseConfig object. You will need to paste this into index.html.
+* Configure the App
 
-In the Firebase Console, go to Build > Authentication and enable the Email/Password sign-in provider.
+  Open KalaSaarthi_Marketplace.html.
 
-Go to Build > Firestore Database and create a database in production mode.
+  Find the <script type="module"> section (around line 1224).
 
-Set up Gemini API Key:
+  Locate the fallback firebaseConfig object and paste your Firebase config there.
 
-Go to Google AI Studio to get your free API key.
+  Locate the GEMINI_API_KEY constant and paste your Gemini API key as a string.
+  ```
+  // ...
+  // UPDATED: Replaced fallback config with your specific project details
+  const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+      apiKey: "PASTE_YOUR_FIREBASE_API_KEY_HERE",
+      authDomain: "YOUR-PROJECT-ID.firebaseapp.com",
+      projectId: "YOUR-PROJECT-ID",
+      storageBucket: "YOUR-PROJECT-ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+     appId: "YOUR_APP_ID",
+      measurementId: "YOUR_MEASUREMENT_ID"
+  };
+  // ...
 
-Open index.html and paste your API key into the GEMINI_API_KEY constant at the top of the <script> tag.
+  // --- Gemini API Configuration ---
+  const GEMINI_API_KEY = "PASTE_YOUR_GEMINI_API_KEY_HERE"; 
+  const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${GEMINI_API_KEY}`;
+  // ...
+  ```
 
-Install Firebase CLI and Run Locally:
 
-## Install the Firebase command-line tools
-npm install -g firebase-tools
+* Run
 
-## Log in to your Google account
-firebase login
+  Simply open the KalaSaarthi_Marketplace.html file in any modern web browser. The app will sign you in anonymously (since initialAuthToken will be null) and you    can start using it.
 
-## Test the app on a local server
-firebase serve
+## License
 
-Your application should now be running on http://localhost:5000.
-
-## Deployment
-To deploy the application to the web, use the Firebase CLI.
-
-Initialize Firebase in your project directory (one-time setup):
-
-firebase init hosting
-
-Select Use an existing project and choose your Firebase project.
-
-Use . as your public directory.
-
-Answer No to the single-page app question.
-
-Deploy to Firebase Hosting:
-
-firebase deploy --only hosting
-
-After deployment, the CLI will provide you with the live URL for your project.
+This project is open-source. Feel free to use, modify, and distribute it.
