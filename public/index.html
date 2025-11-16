@@ -148,6 +148,18 @@
         #camera-feed {
             transform: scaleX(-1); /* Mirror effect */
         }
+        
+        /* NEW: Star Rating Hover */
+        .star-rating-input i:hover,
+        .star-rating-input i:hover ~ i {
+            color: #fbbf24; /* amber-400 */
+        }
+        .star-rating-input:hover i {
+            color: var(--text-secondary);
+        }
+        .star-rating-input i:hover {
+            color: #fbbf24;
+        }
     </style>
 </head>
 <body class="bg-stone-100 dark:bg-stone-900">
@@ -254,6 +266,7 @@
         let productsLoaded = false;
         let initialCategoryFilter = null;
         let initialSearchTerm = "";
+        let reviewsUnsubscribe = null;
         
         // NEW: Multilingual and Voice State
         let currentLang = localStorage.getItem('lang') || 'en-US';
@@ -322,6 +335,7 @@
                 'market_explore': 'Explore Crafts', 'market_search_placeholder': 'Search marketplace...', 'market_filters': 'Filters', 'market_no_products': 'No Products Found',
                 'filter_title': 'Filters', 'filter_category': 'Category', 'filter_all': 'All', 'filter_color': 'Color', 'filter_price': 'Price', 'filter_price_up_to': 'Up to ₹', 'filter_sort_by': 'Sort By', 'filter_sort_newest': 'Newest', 'filter_sort_price_asc': 'Price: Low to High', 'filter_sort_price_desc': 'Price: High to Low', 'filter_apply': 'Apply Filters',
                 'product_sold_out': 'Sold Out', 'product_add_to_cart': 'Add to Cart', 'product_mark_sold': 'Mark as Sold', 'product_mark_available': 'Mark as Available', 'product_translate': 'Translate Description', 'product_back': 'Back', 'product_translating': 'Translating...',
+                'reviews_title': 'Customer Reviews', 'reviews_write': 'Write a Review', 'reviews_rating': 'Rating', 'reviews_comment': 'Share your thoughts...', 'reviews_submit': 'Submit Review', 'reviews_no_reviews': 'No reviews yet.',
                 'dashboard_seller_title': 'Seller Dashboard', 'dashboard_new_listing': 'Create New Listing', 'dashboard_my_products': 'My Products', 'dashboard_sales': 'Sales Analytics', 'dashboard_buyer_title': 'My Dashboard', 'dashboard_my_orders': 'My Orders', 'dashboard_my_profile': 'My Profile', 'dashboard_address_name': 'Full Name', 'dashboard_address_street': 'Shipping Address', 'dashboard_address_city': 'City', 'dashboard_address_pincode': 'Pincode', 'dashboard_save_address': 'Save Address', 'dashboard_my_wishlist': 'My Wishlist', 'dashboard_no_orders': "You haven't placed any orders yet.", 'dashboard_no_products': "You haven't listed any products yet.", 'dashboard_no_wishlist': 'Your wishlist is empty.',
                 'cart_title': 'My Cart', 'cart_empty': 'Your Cart is Empty', 'cart_total': 'Total', 'cart_checkout': 'Place Order',
                 'support_title': 'Help & Support', 'support_text': 'For any queries, please contact us at', 'support_coming_soon': 'Our customer service feature is coming soon!',
@@ -341,6 +355,7 @@
                 'market_explore': 'शिल्प का अन्वेषण करें', 'market_search_placeholder': 'बाज़ार खोजें...', 'market_filters': 'फिल्टर', 'market_no_products': 'कोई उत्पाद नहीं मिला',
                 'filter_title': 'फिल्टर', 'filter_category': 'श्रेणी', 'filter_all': 'सभी', 'filter_color': 'रंग', 'filter_price': 'कीमत', 'filter_price_up_to': '₹ तक', 'filter_sort_by': 'इसके अनुसार क्रमबद्ध करें', 'filter_sort_newest': 'नवीनतम', 'filter_sort_price_asc': 'कीमत: कम से ज्यादा', 'filter_sort_price_desc': 'कीमत: ज्यादा से कम', 'filter_apply': 'फिल्टर लागू करें',
                 'product_sold_out': 'बिक गया', 'product_add_to_cart': 'कार्ट में डालें', 'product_mark_sold': 'बिका हुआ चिह्नित करें', 'product_mark_available': 'उपलब्ध चिह्नित करें', 'product_translate': 'विवरण का अनुवाद करें', 'product_back': 'वापस', 'product_translating': 'अनुवाद हो रहा है...',
+                'reviews_title': 'ग्राहक समीक्षाएं', 'reviews_write': 'समीक्षा लिखें', 'reviews_rating': 'रेटिंग', 'reviews_comment': 'अपने विचार साझा करें...', 'reviews_submit': 'समीक्षा सबमिट करें', 'reviews_no_reviews': 'अभी तक कोई समीक्षा नहीं।',
                 'dashboard_seller_title': 'विक्रेता डैशबोर्ड', 'dashboard_new_listing': 'नई लिस्टिंग बनाएं', 'dashboard_my_products': 'मेरे उत्पाद', 'dashboard_sales': 'बिक्री विश्लेषण', 'dashboard_buyer_title': 'मेरा डैशबोर्ड', 'dashboard_my_orders': 'मेरे आर्डर', 'dashboard_my_profile': 'मेरी प्रोफाइल', 'dashboard_address_name': 'पूरा नाम', 'dashboard_address_street': 'शिपिंग पता', 'dashboard_address_city': 'शहर', 'dashboard_address_pincode': 'पिन कोड', 'dashboard_save_address': 'पता सहेजें', 'dashboard_my_wishlist': 'मेरी इच्छासूची', 'dashboard_no_orders': 'आपने अभी तक कोई आर्डर नहीं दिया है।', 'dashboard_no_products': 'आपने अभी तक कोई उत्पाद सूचीबद्ध नहीं किया है।', 'dashboard_no_wishlist': 'आपकी इच्छासूची खाली है।',
                 'cart_title': 'मेरी कार्ट', 'cart_empty': 'आपकी कार्ट खाली है', 'cart_total': 'कुल', 'cart_checkout': 'आर्डर दें',
                 'support_title': 'सहायता और समर्थन', 'support_text': 'किसी भी प्रश्न के लिए, कृपया हमसे संपर्क करें', 'support_coming_soon': 'हमारी ग्राहक सेवा सुविधा जल्द ही आ रही है!',
@@ -360,6 +375,7 @@
                 'market_explore': 'Explorar Artesanías', 'market_search_placeholder': 'Buscar en el mercado...', 'market_filters': 'Filtros', 'market_no_products': 'No se Encontraron Productos',
                 'filter_title': 'Filtros', 'filter_category': 'Categoría', 'filter_all': 'Todo', 'filter_color': 'Color', 'filter_price': 'Precio', 'filter_price_up_to': 'Hasta ₹', 'filter_sort_by': 'Ordenar por', 'filter_sort_newest': 'Más Nuevo', 'filter_sort_price_asc': 'Precio: Bajo a Alto', 'filter_sort_price_desc': 'Precio: Alto a Bajo', 'filter_apply': 'Aplicar Filtros',
                 'product_sold_out': 'Agotado', 'product_add_to_cart': 'Añadir al Carrito', 'product_mark_sold': 'Marcar como Vendido', 'product_mark_available': 'Marcar como Disponible', 'product_translate': 'Traducir Descripción', 'product_back': 'Volver', 'product_translating': 'Traduciendo...',
+                'reviews_title': 'Reseñas de Clientes', 'reviews_write': 'Escribir una Reseña', 'reviews_rating': 'Calificación', 'reviews_comment': 'Comparte tus pensamientos...', 'reviews_submit': 'Enviar Reseña', 'reviews_no_reviews': 'No hay reseñas aún.',
                 'dashboard_seller_title': 'Panel de Vendedor', 'dashboard_new_listing': 'Crear Nueva Publicación', 'dashboard_my_products': 'Mis Productos', 'dashboard_sales': 'Análisis de Ventas', 'dashboard_buyer_title': 'Mi Panel', 'dashboard_my_orders': 'Mis Pedidos', 'dashboard_my_profile': 'Mi Perfil', 'dashboard_address_name': 'Nombre Completo', 'dashboard_address_street': 'Dirección de Envío', 'dashboard_address_city': 'Ciudad', 'dashboard_address_pincode': 'Código Postal', 'dashboard_save_address': 'Guardar Dirección', 'dashboard_my_wishlist': 'Mi Lista de Deseos', 'dashboard_no_orders': 'Aún no has realizado ningún pedido.', 'dashboard_no_products': 'Aún no has publicado ningún producto.', 'dashboard_no_wishlist': 'Tu lista de deseos está vacía.',
                 'cart_title': 'Mi Carrito', 'cart_empty': 'Tu Carrito está Vacío', 'cart_total': 'Total', 'cart_checkout': 'Realizar Pedido',
                 'support_title': 'Ayuda y Soporte', 'support_text': 'Para cualquier consulta, contáctenos en', 'support_coming_soon': '¡Nuestro servicio de atención al cliente llegará pronto!',
@@ -381,6 +397,7 @@
                 'cat_saree': 'Sari', 'cat_jewelry': 'Bijoux', 'cat_painting': 'Peinture', 'cat_pottery': 'Poterie', 'cat_other': 'Autre',
                 'product_translating': 'Traduction...',
                 'product_mark_sold': 'Marquer comme vendu', 'product_mark_available': 'Marquer comme disponible',
+                'reviews_title': 'Avis des clients', 'reviews_write': 'Écrire un avis', 'reviews_rating': 'Évaluation', 'reviews_comment': 'Partagez vos pensées...', 'reviews_submit': 'Soumettre', 'reviews_no_reviews': 'Pas encore d\'avis.',
                 // Partial
             },
             'ja-JP': { 
@@ -393,6 +410,7 @@
                 'cat_saree': 'サリー', 'cat_jewelry': 'ジュエリー', 'cat_painting': '絵画', 'cat_pottery': '陶器', 'cat_other': 'その他',
                 'product_translating': '翻訳中...',
                 'product_mark_sold': '販売済みとしてマーク', 'product_mark_available': '販売中としてマーク',
+                'reviews_title': 'カスタマーレビュー', 'reviews_write': 'レビューを書く', 'reviews_rating': '評価', 'reviews_comment': '感想を共有...', 'reviews_submit': '送信', 'reviews_no_reviews': 'まだレビューはありません。',
                 // Partial
             },
             'ta-IN': { 
@@ -405,6 +423,7 @@
                 'cat_saree': 'புடவை', 'cat_jewelry': 'நகைகள்', 'cat_painting': 'ஓவியம்', 'cat_pottery': 'மட்பாண்டம்', 'cat_other': 'மற்றவை',
                 'product_translating': 'மொழிபெயர்க்கிறது...',
                 'product_mark_sold': 'விற்றதாகக் குறிக்கவும்', 'product_mark_available': 'இருப்பதாகக் குறிக்கவும்',
+                'reviews_title': 'வாடிக்கையாளர் விமர்சனங்கள்', 'reviews_write': 'விமர்சனம் எழுதுங்கள்', 'reviews_rating': 'மதிப்பீடு', 'reviews_comment': 'உங்கள் கருத்துக்களை பகிரவும்...', 'reviews_submit': 'சமர்ப்பிக்கவும்', 'reviews_no_reviews': 'இன்னும் விமர்சனங்கள் இல்லை.',
                 // Partial
             },
             'ml-IN': { 
@@ -417,6 +436,7 @@
                 'cat_saree': 'സാരി', 'cat_jewelry': 'ആഭരണങ്ങൾ', 'cat_painting': 'പെയിന്റിംഗ്', 'cat_pottery': 'മൺപാത്രങ്ങൾ', 'cat_other': 'മറ്റുള്ളവ',
                 'product_translating': 'വിവർത്തനം ചെയ്യുന്നു...',
                 'product_mark_sold': 'വിറ്റതായി അടയാളപ്പെടുത്തുക', 'product_mark_available': 'ലഭ്യമായി അടയാളപ്പെടുത്തുക',
+                'reviews_title': 'ഉപഭോക്തൃ അവലോകനങ്ങൾ', 'reviews_write': 'അവലോകനം എഴുതുക', 'reviews_rating': 'റേറ്റിംഗ്', 'reviews_comment': 'അഭിപ്രായങ്ങൾ പങ്കിടുക...', 'reviews_submit': 'സമർപ്പിക്കുക', 'reviews_no_reviews': 'അവലോകനങ്ങളൊന്നുമില്ല.',
                 // Partial
             },
             'te-IN': { 
@@ -429,6 +449,7 @@
                 'cat_saree': 'చీర', 'cat_jewelry': 'ఆభరణాలు', 'cat_painting': 'చిత్రలేఖనం', 'cat_pottery': 'కుండలు', 'cat_other': 'ఇతర',
                 'product_translating': 'అనువదిస్తోంది...',
                 'product_mark_sold': 'అమ్మినట్లుగా గుర్తించండి', 'product_mark_available': 'అందుబాటులో ఉన్నట్లు గుర్తించండి',
+                'reviews_title': 'కస్టమర్ సమీక్షలు', 'reviews_write': 'సమీక్ష రాయండి', 'reviews_rating': 'రేటింగ్', 'reviews_comment': 'మీ ఆలోచనలను పంచుకోండి...', 'reviews_submit': 'సమర్పించు', 'reviews_no_reviews': 'ఇంకా సమీక్షలు లేవు.',
                 // Partial
             },
             'kn-IN': { 
@@ -441,6 +462,7 @@
                 'cat_saree': 'ಸೀರೆ', 'cat_jewelry': 'ಆಭರಣ', 'cat_painting': 'ಚಿತ್ರಕಲೆ', 'cat_pottery': 'ಕುಂಬಾರಿಕೆ', 'cat_other': 'ಇತರೆ',
                 'product_translating': 'ಭಾಷಾಂತರಿಸಲಾಗುತ್ತಿದೆ...',
                 'product_mark_sold': 'ಮಾರಾಟವಾಗಿದೆ ಎಂದು ಗುರುತಿಸಿ', 'product_mark_available': 'ಲಭ್ಯವಿದೆ ಎಂದು ಗುರುತಿಸಿ',
+                'reviews_title': 'ಗ್ರಾಹಕರ ವಿಮರ್ಶೆಗಳು', 'reviews_write': 'ವಿಮರ್ಶೆ ಬರೆಯಿರಿ', 'reviews_rating': 'ರೇಟಿಂಗ್', 'reviews_comment': 'ನಿಮ್ಮ ಅನಿಸಿಕೆ ಹಂಚಿಕೊಳ್ಳಿ...', 'reviews_submit': 'ಸಲ್ಲಿಸಿ', 'reviews_no_reviews': 'ಇನ್ನೂ ಯಾವುದೇ ವಿಮರ್ಶೆಗಳಿಲ್ಲ.',
                 // Partial
             }
         };
@@ -562,6 +584,10 @@
         }
 
         function setActiveView(viewId, calledInternally = false) {
+            if(reviewsUnsubscribe) {
+                reviewsUnsubscribe();
+                reviewsUnsubscribe = null;
+            }
             document.querySelectorAll('#app-nav .tab').forEach(t => t.classList.toggle('active', t.dataset.view === viewId) );
             const viewRenderers = {
                 'home-view': renderHome, 'dashboard-view': renderDashboard,
@@ -1100,6 +1126,13 @@
                 const dataId = isClickable ? `data-id="${p.id}"` : ''; 
                 const inWishlist = currentUser?.wishlist?.includes(p.id);
                 const soldOutText = (translations[currentLang] && translations[currentLang]['product_sold_out']) || translations['en-US']['product_sold_out'];
+                
+                // NEW: Rating Display for Grid
+                let ratingHtml = '';
+                if(p.reviewCount > 0) {
+                   ratingHtml = `<div class="flex items-center mt-1 text-sm"><i class="fas fa-star text-yellow-400 mr-1"></i><span class="font-semibold">${p.averageRating.toFixed(1)}</span><span class="text-secondary text-xs ml-1">(${p.reviewCount})</span></div>`;
+                }
+
                 return `<div class="${classes}" ${dataId}>
                     <div class="h-56 relative">
                         <img class="w-full h-full object-cover" src="${p.images[0]}" alt="${p.title}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/31343C?text=Image+Not+Found';">
@@ -1112,6 +1145,7 @@
                     </div>
                     <div class="p-4">
                         <h3 class="font-bold truncate text-primary">${p.title}</h3>
+                        ${ratingHtml}
                         <p class="text-xl font-bold text-theme mt-2">₹${p.price}</p>
                     </div>
                 </div>`; 
@@ -1147,7 +1181,15 @@
             const initialTitle = (currentLang !== 'en-US') ? translatingText : p.title;
             const initialDesc = (currentLang !== 'en-US') ? translatingText : p.desc;
             
-            detailContainer.innerHTML = `<div class="card p-8 rounded-2xl shadow-lg"><button id="back-to-grid" class="btn-secondary font-bold py-2 px-4 mb-6 rounded-lg"><i class="fas fa-arrow-left mr-2"></i>${backText}</button><div class="grid md:grid-cols-2 gap-8"><div><div class="mb-4"><img id="main-product-image" src="${p.images[0]}" class="w-full rounded-lg shadow-lg" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EEE/31343C?text=Image+Not+Found';"></div><div id="thumbnail-images" class="grid grid-cols-4 gap-2">${(p.images || []).map((img, i) => `<img src="${img}" class="w-full rounded-md cursor-pointer border-2 ${i === 0 ? 'border-amber-700' : 'border-transparent'}" onerror="this.onerror=null;this.src='https://placehold.co/150x100/EEE/31343C?text=X';">`).join('')}</div></div><div>
+            // REVIEWS SECTION HTML
+            const reviewsTitle = langMap['reviews_title'] || translations['en-US']['reviews_title'];
+            const writeReviewTitle = langMap['reviews_write'] || translations['en-US']['reviews_write'];
+            const ratingLabel = langMap['reviews_rating'] || translations['en-US']['reviews_rating'];
+            const commentLabel = langMap['reviews_comment'] || translations['en-US']['reviews_comment'];
+            const submitBtnText = langMap['reviews_submit'] || translations['en-US']['reviews_submit'];
+            const noReviewsText = langMap['reviews_no_reviews'] || translations['en-US']['reviews_no_reviews'];
+
+            detailContainer.innerHTML = `<div class="card p-8 rounded-2xl shadow-lg"><button id="back-to-grid" class="btn-secondary font-bold py-2 px-4 mb-6 rounded-lg"><i class="fas fa-arrow-left mr-2"></i>${backText}</button><div class="grid md:grid-cols-2 gap-8"><div><div class="mb-4"><img id="main-product-image" src="${p.images[0]}" class="w-full rounded-lg shadow-lg" onerror="this.onerror=null;this.src='httpss://placehold.co/600x400/EEE/31343C?text=Image+Not+Found';"></div><div id="thumbnail-images" class="grid grid-cols-4 gap-2">${(p.images || []).map((img, i) => `<img src="${img}" class="w-full rounded-md cursor-pointer border-2 ${i === 0 ? 'border-amber-700' : 'border-transparent'}" onerror="this.onerror=null;this.src='https://placehold.co/150x100/EEE/31343C?text=X';">`).join('')}</div></div><div>
                 <h2 class="text-4xl font-bold text-primary flex justify-between items-start">
                     <span id="product-title-text">${initialTitle}</span>
                     ${currentUser.role === 'buyer' ?
@@ -1160,10 +1202,45 @@
                 <div class="mt-6">
                     <p class="text-secondary" id="product-description-text">${initialDesc}</p>
                 </div>
-                ${actionButton}</div></div></div>`;
+                ${actionButton}
+                
+                <!-- REVIEWS SECTION -->
+                <div class="mt-12 border-t border-color pt-8">
+                    <h3 class="text-2xl font-bold text-primary mb-6" data-translate-key="reviews_title">${reviewsTitle}</h3>
+                    
+                    <!-- Reviews List -->
+                    <div id="reviews-list" class="space-y-6 mb-8">
+                        <div class="spinner animate-spin mx-auto"></div>
+                    </div>
+
+                    <!-- Add Review Form (Only for buyers) -->
+                    ${currentUser.role === 'buyer' ? `
+                    <div class="bg-stone-50 dark:bg-stone-800 p-6 rounded-lg">
+                        <h4 class="font-bold text-lg mb-4" data-translate-key="reviews_write">${writeReviewTitle}</h4>
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold mb-2" data-translate-key="reviews_rating">${ratingLabel}</label>
+                            <div class="flex space-x-2 text-2xl text-gray-300 cursor-pointer star-rating-input" id="star-rating-input">
+                                <i class="fas fa-star" data-value="1"></i>
+                                <i class="fas fa-star" data-value="2"></i>
+                                <i class="fas fa-star" data-value="3"></i>
+                                <i class="fas fa-star" data-value="4"></i>
+                                <i class="fas fa-star" data-value="5"></i>
+                            </div>
+                            <input type="hidden" id="rating-value" value="0">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold mb-2" data-translate-key="reviews_comment">${commentLabel}</label>
+                            <textarea id="review-comment" rows="3" class="w-full p-2 border rounded bg-transparent border-color"></textarea>
+                        </div>
+                        <button id="submit-review-btn" class="btn-primary font-bold py-2 px-6 rounded-lg" data-translate-key="reviews_submit">${submitBtnText}</button>
+                    </div>
+                    ` : ''}
+                </div>
+
+                </div></div></div>`;
             document.getElementById('product-grid-container').classList.add('hidden');
             detailContainer.classList.remove('hidden');
-            detailContainer.querySelector('#back-to-grid').addEventListener('click', () => { detailContainer.classList.add('hidden'); document.getElementById('product-grid-container').classList.remove('hidden'); });
+            detailContainer.querySelector('#back-to-grid').addEventListener('click', () => { detailContainer.classList.add('hidden'); document.getElementById('product-grid-container').classList.remove('hidden'); if(reviewsUnsubscribe) reviewsUnsubscribe(); });
             
             const cartBtn = detailContainer.querySelector('.add-to-cart-btn');
             if(cartBtn) cartBtn.addEventListener('click', (e) => addToCart(e.target.dataset.id));
@@ -1174,6 +1251,36 @@
             const wishlistBtn = detailContainer.querySelector('.toggle-wishlist-btn');
             if(wishlistBtn) wishlistBtn.addEventListener('click', (e) => toggleWishlist(e.currentTarget.dataset.id));
             
+            // Star Rating Logic
+            const stars = detailContainer.querySelectorAll('#star-rating-input i');
+            const ratingInput = detailContainer.querySelector('#rating-value');
+            if(stars.length > 0) {
+                stars.forEach(star => {
+                    star.addEventListener('click', (e) => {
+                        const val = parseInt(e.target.dataset.value);
+                        ratingInput.value = val;
+                        stars.forEach(s => {
+                            if (parseInt(s.dataset.value) <= val) {
+                                s.classList.add('text-yellow-400');
+                                s.classList.remove('text-gray-300');
+                            } else {
+                                s.classList.remove('text-yellow-400');
+                                s.classList.add('text-gray-300');
+                            }
+                        });
+                    });
+                });
+            }
+
+            // Submit Review Logic
+            const submitReviewBtn = detailContainer.querySelector('#submit-review-btn');
+            if(submitReviewBtn) {
+                submitReviewBtn.addEventListener('click', () => submitReview(p.id));
+            }
+
+            // Load Reviews
+            loadReviews(p.id);
+
             // NEW: Automatically translate if language is not English
             if (currentLang !== 'en-US') {
                 translateProductDetails(p.title, p.desc, currentLang);
@@ -1187,6 +1294,104 @@
             }));
         }
         
+        function loadReviews(productId) {
+            const reviewsList = document.getElementById('reviews-list');
+            if(reviewsUnsubscribe) reviewsUnsubscribe();
+
+            const q = query(collection(db, "reviews"), where("productId", "==", productId)); // Simple query, sort client side if needed
+            
+            reviewsUnsubscribe = onSnapshot(q, (snapshot) => {
+                const reviews = snapshot.docs.map(doc => doc.data());
+                
+                // Client-side sort by timestamp (newest first)
+                reviews.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+
+                if(reviews.length === 0) {
+                    const noReviewsText = (translations[currentLang] && translations[currentLang]['reviews_no_reviews']) || translations['en-US']['reviews_no_reviews'];
+                    reviewsList.innerHTML = `<p class="text-secondary italic">${noReviewsText}</p>`;
+                    return;
+                }
+
+                reviewsList.innerHTML = reviews.map(r => `
+                    <div class="border-b border-color pb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-bold text-primary">${r.userName || 'Anonymous'}</span>
+                            <span class="text-xs text-secondary">${r.createdAt ? new Date(r.createdAt.seconds * 1000).toLocaleDateString() : ''}</span>
+                        </div>
+                        <div class="flex text-yellow-400 text-sm mb-2">
+                            ${Array(5).fill(0).map((_, i) => `<i class="${i < r.rating ? 'fas' : 'far'} fa-star"></i>`).join('')}
+                        </div>
+                        <p class="text-secondary text-sm">${r.comment}</p>
+                    </div>
+                `).join('');
+            });
+        }
+
+        async function submitReview(productId) {
+            const rating = parseInt(document.getElementById('rating-value').value);
+            const comment = document.getElementById('review-comment').value;
+            
+            if (rating === 0) {
+                showNotification("Please select a rating.", "error");
+                return;
+            }
+            if (!comment.trim()) {
+                showNotification("Please write a comment.", "error");
+                return;
+            }
+
+            const submitBtn = document.getElementById('submit-review-btn');
+            setLoading(submitBtn, true, '');
+
+            try {
+                // 1. Add Review
+                await addDoc(collection(db, "reviews"), {
+                    productId: productId,
+                    userId: currentUser.uid,
+                    userName: currentUser.address?.name || currentUser.email.split('@')[0], // Fallback name
+                    rating: rating,
+                    comment: comment,
+                    createdAt: serverTimestamp()
+                });
+
+                // 2. Update Product Stats (Average Rating & Count)
+                // We need to fetch the product first to get current stats
+                // Note: This isn't a transaction, so slight race conditions possible, but okay for this scale.
+                const productRef = doc(db, "products", productId);
+                const productSnap = await getDoc(productRef);
+                
+                if (productSnap.exists()) {
+                    const p = productSnap.data();
+                    const currentCount = p.reviewCount || 0;
+                    const currentAvg = p.averageRating || 0;
+                    
+                    const newCount = currentCount + 1;
+                    // Calculate new rolling average
+                    const newAvg = ((currentAvg * currentCount) + rating) / newCount;
+
+                    await updateDoc(productRef, {
+                        reviewCount: newCount,
+                        averageRating: newAvg
+                    });
+                }
+
+                showNotification("Review submitted successfully!");
+                document.getElementById('rating-value').value = 0;
+                document.getElementById('review-comment').value = '';
+                // Reset stars
+                document.querySelectorAll('#star-rating-input i').forEach(s => {
+                    s.classList.remove('text-yellow-400');
+                    s.classList.add('text-gray-300');
+                });
+
+            } catch (error) {
+                console.error("Error submitting review:", error);
+                showNotification("Failed to submit review.", "error");
+            } finally {
+                setLoading(submitBtn, false, (translations[currentLang] && translations[currentLang]['reviews_submit']) || 'Submit Review');
+            }
+        }
+
         async function translateProductDetails(title, desc, targetLang) {
             const titleEl = document.getElementById('product-title-text');
             const descEl = document.getElementById('product-description-text');
