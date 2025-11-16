@@ -10,7 +10,7 @@ Traditional Indian artisans, while masters of their craft, are often locked out 
 
 KalaSaarthi (meaning "Art's Charioteer") is a single-page web application that acts as an AI partner for these artisans. It simplifies the process of selling online into three simple steps: upload a photo, write a story (in their native language), and let the AI handle the rest.
 
-The app generate professional, market-ready product titles, descriptions, and tags in the language of their choice (English, Hindi, or Tamil), completely removing the marketing and language barrier.
+The app generate professional, market-ready product titles, descriptions, and tags in the language of their choice (English, Hindi, Tamil +6 more languages), completely removing the marketing and language barrier.
 
 ## Key Features
 
@@ -18,7 +18,7 @@ Dual User Roles: Separate, secure dashboards for "Buyers" and "Sellers".
 
 AI Content Generation: Integrated Google Gemini API (gemini-2.5-flash-preview-09-2025) to generate product listings from a simple story.
 
-Multilingual Support: Full UI translation and AI generation in English, हिन्दी (Hindi), and தமிழ் (Tamil).
+Multilingual Support: Full UI translation and AI generation in English, हिन्दी (Hindi), and தமிழ் (Tamil) +6 more languages.
 
 Complete E-commerce Flow: Full marketplace, product filtering (by category, price, etc.), shopping cart, and order history.
 
